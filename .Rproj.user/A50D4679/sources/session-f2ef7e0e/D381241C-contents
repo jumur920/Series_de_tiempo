@@ -1,0 +1,9 @@
+_book/
+_bookdown_files/
+*.log
+*.aux
+*.toc
+*.out
+*.rds
+.Rhistory
+.RData
