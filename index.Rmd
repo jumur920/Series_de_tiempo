@@ -19,8 +19,6 @@ site: bookdown::bookdown_site
 
 # Introducción
 
-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
-
 Durante este curso de series de tiempo, hemos decidido trabajar las ventas de café en una máquina expendedora. Detrás de cada café que alguien compra en su lugar de trabajo o en un espacio público, hay patrones de consumo, hábitos y decisiones que se repiten en el tiempo. Analizar esta información nos permite aplicar modelos de pronóstico reales, útiles y con impacto directo en la toma de decisiones comerciales y operativas.
 
 Poder anticipar cuánto café se va a vender en los próximos días, semanas o meses es  clave para mejorar la experiencia del cliente, reducir pérdidas y aumentar la eficiencia.
