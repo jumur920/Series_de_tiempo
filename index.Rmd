@@ -1,61 +1,59 @@
----
-title: "Bookdown series de tiempo"
-author: "Juan Andres Murillo Cadena"
+--- 
+title: "Pronóstico de Ventas de Café en Máquinas Expendedoras"
+author: "Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián
+  Villa Infante"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
+output: pdf_document
 documentclass: book
-bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
+bibliography:
+- book.bib
+- packages.bib
 description: |
   This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
   set in the _output.yml file.
-link-citations: yes
-github-repo: rstudio/bookdown-demo
+  The HTML output format for this example is bookdown::gitbook,
+link-citations: true
+github-repo: "rstudio/bookdown-demo"
+site: bookdown::bookdown_site
 ---
 
-# About
+# Introducción
 
-Prueba libro serie de tiempo.
+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
 
-This is a *sample* book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+Durante este curso de series de tiempo, hemos decidido trabajar las ventas de café en una máquina expendedora. Detrás de cada café que alguien compra en su lugar de trabajo o en un espacio público, hay patrones de consumo, hábitos y decisiones que se repiten en el tiempo. Analizar esta información nos permite aplicar modelos de pronóstico reales, útiles y con impacto directo en la toma de decisiones comerciales y operativas.
 
-## Usage
+Poder anticipar cuánto café se va a vender en los próximos días, semanas o meses es  clave para mejorar la experiencia del cliente, reducir pérdidas y aumentar la eficiencia.
 
-Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+## Justificación de la Elección
 
-Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+El café es una de las bebidas más consumidas en todo el mundo, y las máquinas expendedoras son una forma práctica de acceder a él. Nos pareció un caso ideal porque:
 
-The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
 
-## Render book
+	1.	Ayuda a planificar mejor los inventarios: Prever la demanda permite tener siempre lo justo: ni mucho producto que termine vencido, ni tan poco que dejemos de vender.
 
-You can render the HTML version of this example book without changing anything:
+	2.	Hace más eficientes las operaciones: Si sabemos cuándo se vende más café, podemos organizar mejor las recargas y los mantenimientos, ahorrando tiempo y dinero.
 
-1.  Find the **Build** pane in the RStudio IDE, and
+	3.	Permite personalizar promociones:Detectar días u horarios de baja demanda ayuda a lanzar promociones en momentos estratégicos.
 
-2.  Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
+	4.	Mejora la experiencia de quienes compran: Asegurar que los productos favoritos estén disponibles en los momentos clave mejora la satisfacción y fideliza al cliente.
 
-Or build the book from the R console:
 
-```{r, eval=FALSE}
-bookdown::render_book()
-```
+## Descripción de la Información a Utilizar
 
-To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
+Vamos a utilizar un dataset llamado “Coffee Sales”, publicado por Yaroslav Isaienkov en la plataforma Kaggle. Esta base de datos contiene registros reales de ventas desde marzo de 2024 y sigue actualizándose semanalmente.
 
-## Preview book
+El dataset incluye:
 
-As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
+	•	La fecha y hora de cada transacción
+	•	El tipo de café vendido
+	•	La cantidad y el método de pago
+	•	Información detallada sobre el producto y las preferencias del cliente
 
-```{r eval=FALSE}
-bookdown::serve_book()
-```
+Todo esto en archivos están en formato .csv que son muy fáciles de trabajar y analizar, ideales para aplicar modelos de series de tiempo.
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+## Fuentes y Permisos de Uso
+
+Una gran ventaja de este dataset es que está disponible bajo una licencia de dominio público (CC0),(@isaienkov2025) lo que significa que se puede usar libremente con fines educativos, de análisis y sin restricciones. Además, todos los datos han sido recolectados de forma anónima a partir de informes de la propia máquina expendedora.
+
+
