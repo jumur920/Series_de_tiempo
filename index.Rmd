@@ -12,14 +12,14 @@ description: |
   This is a minimal example of using the bookdown package to write a book.
   set in the _output.yml file.
   The HTML output format for this example is bookdown::gitbook,
-link-citations: true
+link-citations: false
 github-repo: "rstudio/bookdown-demo"
 site: bookdown::bookdown_site
 ---
 
 # Introducción 2
 
-Durante este curso de series de tiempo, hemos decidido trabajar las ventas de café en una máquina expendedora. Detrás de cada café que alguien compra en su lugar de trabajo o en un espacio público, hay patrones de consumo, hábitos y decisiones que se repiten en el tiempo. Analizar esta información nos permite aplicar modelos de pronóstico reales, útiles y con impacto directo en la toma de decisiones comerciales y operativas.
+Durante este curso de series de tiempo, hemos decidido trabajar las ventas de café en una máquina expendedora. Detrás de cada café que alguien compra, hay patrones de consumo, hábitos y decisiones que se repiten en el tiempo. Analizar esta información nos permite aplicar modelos de pronóstico reales, útiles y con impacto directo en la toma de decisiones comerciales y operativas.
 
 Poder anticipar cuánto café se va a vender en los próximos días, semanas o meses es  clave para mejorar la experiencia del cliente, reducir pérdidas y aumentar la eficiencia.
 
