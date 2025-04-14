@@ -7,3 +7,4 @@ _bookdown_files/
 *.rds
 .Rhistory
 .RData
+.Rproj.user
