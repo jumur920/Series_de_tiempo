@@ -1,11 +1,174 @@
-# Hello bookdown 
+# Análisis grafico de series de tiempo
 
-All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (`#`) per .Rmd file.
+Este es un análisis temporal de las ventas diarias de una máquina de café, con el objetivo de identificar patrones, tendencias y ciclos estacionales que permitan optimizar la gestión del negocio. Los datos incluyen información sobre la fecha y hora de las ventas, el medio de pago (efectivo o tarjeta), el valor de cada transacción y el tipo de café vendido. El análisis se centra en la variable `valor_total` (suma de ventas por día) y utiliza tres herramientas principales: el promedio móvil, la función de autocorrelación (ACF) y la descomposición STL.
 
-## A section
+## Metodología
 
-All chapter sections start with a second-level (`##`) or higher heading followed by your section title, like the sections above and below here. You can have as many as you want within a chapter.
+### Datos
 
-### An unnumbered section {-}
+Los datos abarcan un periodo de 385 días, desde abril 01 de 2024 hasta abril 23 de 2025. La variable analizada, `valor_total`, representa la suma de las ventas diarias (en dolares).
 
-Chapters and sections are numbered by default. To un-number a heading, add a `{.unnumbered}` or the shorter `{-}` at the end of the heading, like in this section.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(zoo)
+library(forecast)
+library(ggplot2)
+library(lubridate)
+```
+
+```{r cargar-datos, echo=TRUE, include=FALSE}
+ventas <- read.csv("ventas_cafe.csv", stringsAsFactors = FALSE)
+ventas <- ventas %>%
+  mutate(datetime = as.POSIXct(datetime, format = "%Y-%m-%d %H:%M:%S"))
+ventas_diarias <- ventas %>%
+  mutate(fecha = as.Date(datetime)) %>%
+  group_by(fecha) %>%
+  summarise(valor_total = sum(money)) %>%
+  ungroup()
+ts_ventas <- ts(ventas_diarias$valor_total, frequency = 7)
+
+```
+
+
+
+### Promedio móvil
+
+Promedio móvil: Se calculó un promedio móvil de 7 días para suavizar las fluctuaciones diarias y destacar tendencias generales en las ventas. La siguiente gráfica muestra las ventas diarias (línea azul) junto con el promedio móvil (línea naranja).
+
+```{r promedio-movil, echo=FALSE, warning=FALSE, fig.cap="Ventas diarias con promedio móvil"}
+
+calcular_promedio_movil <- function(serie, n = 7) {
+  return(rollmean(serie, k = n, fill = NA, align = "center"))
+}
+ventas_diarias$promedio_movil <- calcular_promedio_movil(ts_ventas)
+ggplot(ventas_diarias, aes(x = fecha)) +
+  geom_line(aes(y = valor_total, color = "Ventas diarias"), size = 0.5) +
+  geom_line(aes(y = promedio_movil, color = "Promedio móvil (7 días)"), size = 1) +
+  labs(title = "Ventas diarias con promedio móvil",
+       x = "Fecha", y = "Valor total",
+       color = "Leyenda") +
+  theme_minimal()
+
+```
+
+
+La gráfica muestra una alta variabilidad en las ventas diarias, con picos que alcanzan hasta 800 y caídas cercanas a 0. El promedio móvil revela las siguientes tendencias:
+Abril-julio 2024: Las ventas promedio crecen de ~300 a ~400, indicando un aumento en la demanda.
+
+Julio-octubre 2024: Alcanzan un pico de ~500, mostrando un periodo de alta demanda, posiblemente por festividades o factores estacionales.
+
+Octubre 2024-enero 2025: Disminuyen a ~300, reflejando una caída en las ventas durante el invierno.
+
+Enero-abril 2025: Se recuperan y estabilizan en ~400, indicando una mejora en la primavera.
+
+Esto sugiere una tendencia estacional a largo plazo, con un pico en octubre y una caída en invierno.
+
+### Función de Autocorrelación (ACF)
+
+La función de autocorrelación (ACF) mide la correlación de las ventas diarias consigo mismas en diferentes rezagos, ayudando a identificar patrones temporales y ciclos estacionales.
+
+```{r rezagos, echo=TRUE, fig.cap="Autocorrelación de ventas"}
+# Función para calcular rezagos
+calcular_rezagos <- function(serie, lag_max = 14) {
+  acf(serie, lag.max = lag_max, plot = FALSE)
+}
+
+# Calcular autocorrelación
+
+acf_ventas <- calcular_rezagos(ts_ventas)
+autoplot(acf_ventas) +
+  labs(title = "Función de autocorrelación (ACF) de ventas diarias",
+       x = "Rezago (días)", y = "Autocorrelación") +
+  theme_minimal()
+```
+
+La gráfica ACF muestra:
+Rezagos 1 a 6: Autocorrelaciones significativas (~0.3 a 0.4), indicando una dependencia a corto plazo. Las ventas de un día están correlacionadas con las de los días anteriores, con un efecto que disminuye gradualmente.
+
+Rezago 7: Un pico significativo (~0.4), confirmando un ciclo semanal. Esto indica que las ventas tienen un patrón que se repite cada 7 días (por ejemplo, mayor demanda los fines de semana).
+
+Rezagos 8 a 14: Autocorrelaciones más pequeñas pero aún significativas, con otro pico en el rezago 14 (segundo ciclo semanal), reforzando el patrón estacional.
+
+Este ciclo semanal sugiere que las ventas varían según el día de la semana.
+
+### Descomposición STL
+
+La descomposición STL separa la serie temporal en tres componentes: tendencia, estacionalidad (ciclo semanal) y residuo. 
+
+```{r estacionalidad, echo=TRUE, fig.cap="Descomposición de la serie temporal"}
+# Verifica la serie temporal
+print(ts_ventas)
+
+# Asegúrate de que ts_ventas tiene 391 días
+length(ts_ventas)  # Debería devolver 391
+
+# Aplica STL
+descomposicion <- stl(ts_ventas, s.window = "periodic")
+
+# Grafica
+autoplot(descomposicion) +
+  labs(title = "Descomposición de la serie temporal de ventas",
+       x = "Días transcurridos")
+
+```
+
+```{r arreglo}
+# Extraer los componentes de la descomposición STL
+stl_components <- as.data.frame(descomposicion$time.series)
+stl_components$fecha <- ventas_diarias$fecha
+
+# Verificar que las fechas coincidan
+head(stl_components$fecha)
+tail(stl_components$fecha)
+
+# Crear una gráfica personalizada con ggplot2
+library(ggplot2)
+
+# Gráfica de todos los componentes
+p1 <- ggplot(stl_components, aes(x = fecha)) +
+  geom_line(aes(y = seasonal + trend + remainder, color = "Datos")) +
+  labs(title = "Datos originales", y = "Ventas") +
+  theme_minimal()
+
+p2 <- ggplot(stl_components, aes(x = fecha)) +
+  geom_line(aes(y = trend, color = "Tendencia")) +
+  labs(title = "Tendencia", y = "Ventas") +
+  theme_minimal()
+
+p3 <- ggplot(stl_components, aes(x = fecha)) +
+  geom_line(aes(y = seasonal, color = "Estacionalidad")) +
+  labs(title = "Estacionalidad", y = "Ventas") +
+  theme_minimal()
+
+p4 <- ggplot(stl_components, aes(x = fecha)) +
+  geom_line(aes(y = remainder, color = "Residuo")) +
+  labs(title = "Residuo", y = "Ventas") +
+  theme_minimal()
+
+# Combinar gráficos
+library(patchwork)
+p1 / p2 / p3 / p4
+
+```
+
+La descomposición STL revela los siguientes patrones:
+Tendencia: Similar al promedio móvil, muestra un aumento inicial (abril-julio 2024), un pico en octubre (500), una caída en invierno (300), y una recuperación en primavera (~400). Esto confirma una tendencia estacional a largo plazo.
+
+Estacionalidad: Oscila entre -20 y 20, con un ciclo que se repite cada 7 días, confirmando el patrón semanal identificado por la ACF. Aunque el efecto estacional es pequeño, indica variaciones según el día de la semana (por ejemplo, mayor demanda los fines de semana).
+
+Residuo: Varía entre -300 y 300, mostrando una alta variabilidad. Esto indica que hay fluctuaciones significativas en las ventas que no se explican por la tendencia ni la estacionalidad, posiblemente debido a eventos aleatorios (festivos, promociones, cierres).
+
+## Conclusiones
+
+El análisis temporal de las ventas diarias de la máquina de café revela los siguientes hallazgos:
+Tendencia estacional a largo plazo: Las ventas crecen hacia octubre (pico de 500), caen en invierno (300), y se recuperan en primavera (~400).
+
+Ciclo semanal: Tanto la ACF como la descomposición STL confirman un ciclo de 7 días, indicando que las ventas varían según el día de la semana. Se puede analizar las ventas por día de la semana para identificar días de alta demanda (por ejemplo, fines de semana).
+
+Alta variabilidad residual: El residuo de la descomposición STL muestra fluctuaciones significativas (hasta ±300), lo que sugiere que las ventas tienen un componente impredecible. Esto podría deberse a eventos externos (festivos, promociones), que vale la pena investigar para mejorar las predicciones.
+
+En resumen, las ventas de la máquina de café presentan patrones claros a nivel semanal y estacional. Sin embargo, la alta variabilidad residual indica la necesidad de un análisis más profundo de factores externos para mejorar la previsión y gestión del negocio.
+
