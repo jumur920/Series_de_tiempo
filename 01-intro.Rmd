@@ -29,7 +29,6 @@ ventas_diarias <- ventas %>%
   summarise(valor_total = sum(money)) %>%
   ungroup()
 ts_ventas <- ts(ventas_diarias$valor_total, frequency = 7)
-
 ```
 
 
@@ -70,7 +69,7 @@ Esto sugiere una tendencia estacional a largo plazo, con un pico en octubre y un
 
 La función de autocorrelación (ACF) mide la correlación de las ventas diarias consigo mismas en diferentes rezagos, ayudando a identificar patrones temporales y ciclos estacionales.
 
-```{r rezagos, echo=TRUE, fig.cap="Autocorrelación de ventas"}
+```{r rezagos, echo=FALSE, fig.cap="Autocorrelación de ventas"}
 # Función para calcular rezagos
 calcular_rezagos <- function(serie, lag_max = 14) {
   acf(serie, lag.max = lag_max, plot = FALSE)
@@ -98,7 +97,7 @@ Este ciclo semanal sugiere que las ventas varían según el día de la semana.
 
 La descomposición STL separa la serie temporal en tres componentes: tendencia, estacionalidad (ciclo semanal) y residuo. 
 
-```{r estacionalidad, echo=TRUE, fig.cap="Descomposición de la serie temporal"}
+```{r estacionalidad, echo=FALSE, fig.cap="Descomposición de la serie temporal"}
 # Verifica la serie temporal
 print(ts_ventas)
 
