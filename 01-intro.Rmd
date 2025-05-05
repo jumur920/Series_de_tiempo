@@ -17,6 +17,7 @@ library(zoo)
 library(forecast)
 library(ggplot2)
 library(lubridate)
+library(tseries)
 ```
 
 ```{r cargar-datos, echo=TRUE, include=FALSE}
@@ -97,31 +98,16 @@ Este ciclo semanal sugiere que las ventas varían según el día de la semana.
 
 La descomposición STL separa la serie temporal en tres componentes: tendencia, estacionalidad (ciclo semanal) y residuo. 
 
-```{r estacionalidad, echo=FALSE, fig.cap="Descomposición de la serie temporal"}
-# Verifica la serie temporal
-print(ts_ventas)
+```{r arreglo, echo=FALSE}
 
-# Asegúrate de que ts_ventas tiene 391 días
-length(ts_ventas)  # Debería devolver 391
-
-# Aplica STL
 descomposicion <- stl(ts_ventas, s.window = "periodic")
 
-# Grafica
-autoplot(descomposicion) +
-  labs(title = "Descomposición de la serie temporal de ventas",
-       x = "Días transcurridos")
 
-```
-
-```{r arreglo}
 # Extraer los componentes de la descomposición STL
 stl_components <- as.data.frame(descomposicion$time.series)
 stl_components$fecha <- ventas_diarias$fecha
 
-# Verificar que las fechas coincidan
-head(stl_components$fecha)
-tail(stl_components$fecha)
+
 
 # Crear una gráfica personalizada con ggplot2
 library(ggplot2)
@@ -160,6 +146,66 @@ Estacionalidad: Oscila entre -20 y 20, con un ciclo que se repite cada 7 días, 
 
 Residuo: Varía entre -300 y 300, mostrando una alta variabilidad. Esto indica que hay fluctuaciones significativas en las ventas que no se explican por la tendencia ni la estacionalidad, posiblemente debido a eventos aleatorios (festivos, promociones, cierres).
 
+## Estacionariedad, Diferenciación y Transformaciones
+
+Se analizó la estacionariedad de las ventas y se evaluó la necesidad de diferenciación y transformaciones para controlar tendencia y variabilidad.
+
+### Análisis de Estacionariedad
+
+La estacionariedad se evaluó con la prueba ADF (Augmented Dickey-Fuller). Una serie se considera estacionaria si su media y varianza son constantes en el tiempo.
+
+
+```{r pruebaADF, echo=FALSE}
+
+
+
+adf_result <- adf.test(ts_ventas, alternative = "stationary")
+adf_result
+```
+
+El valor p de la prueba ADF para la serie original es 0.0345. Dado que el valor p es menor que 0.05, rechazamos la hipótesis nula de no estacionariedad, indicando que la serie es estacionaria. Esto significa que la serie no requiere diferenciación, aunque la descomposición STL y el promedio móvil muestran una tendencia estacional a largo plazo (pico en octubre, caída en invierno, recuperación en primavera). La estacionariedad implica que la media y varianza son relativamente constantes.
+
+### Diferenciación
+
+Dado que la prueba ADF confirma que la  serie ya es estacionaria (valor p = 0.0345 < 0.05), la diferenciación no es necesaria.
+
+
+### Transformaciones
+
+La serie original muestra alta variabilidad, con picos grandes (~800) y caídas a 23.02. Esto sugiere una varianza no constante, que podría beneficiarse de una transformación logarítmica para estabilizar la variabilidad. Se verifica si hay valores no positivos::
+
+```{r check-valores, echo=FALSE}
+min_valor_total <- min(ventas_diarias$valor_total)
+min_valor_total
+```
+El valor mínimo es 23.02, un valor positivo y no cercano a 0. Por lo tanto, se puede aplicar una transformación logarítmica log⁡(y).
+
+
+
+```{r translog,  echo=FALSE}
+# Transformación logarítmica (usamos log(y) ya que el valor mínimo es 23.02 > 0)
+ts_ventas_log <- ts(log(ventas_diarias$valor_total), frequency = 7)
+
+ventas_diarias_log <- data.frame(
+  fecha = ventas_diarias$fecha,
+  valor_log = as.numeric(ts_ventas_log)
+)
+
+p_log <- ggplot(ventas_diarias_log, aes(x = fecha, y = valor_log)) +
+  geom_line() +
+  labs(title = "Serie transformada (log(y))", x = "Fecha", y = "Log(Valor total)") +
+  theme_minimal()
+p_log
+```
+La gráfica de la serie transformada muestra que los picos se han reducido en escala. Por ejemplo, los picos más altos, que antes alcanzaban 800, ahora están en el rango de log⁡(800)≈6.6, y las caídas a 23.02 ahora son log⁡(23.02)≈3.1. Esto indica que la transformación estabiliza la varianza, haciendo las fluctuaciones más uniformes a lo largo del tiempo. La transformación no elimina la tendencia estacional ni el ciclo semanal ya que la transformación logarítmica afecta principalmente la varianza, no la tendencia ni la estacionalidad.
+Aunque la serie es estacionaria sin transformación, esta transformación mejora la estabilidad de la serie, lo que puede facilitar el modelado posterior (por ejemplo, SARIMA) y puede mejorar la precisión de las predicciones.
+### Justificación
+Diferenciación: No es necesaria, ya que la serie es estacionaria según la prueba ADF (valor p = 0.0345 < 0.05).
+
+Transformación logarítmica: Aunque no es estrictamente necesaria para la estacionariedad, la transformación log⁡(y)
+ ayuda a estabilizar la varianza de la serie, que tiene alta variabilidad.
+
+
 ## Conclusiones
 
 El análisis temporal de las ventas diarias de la máquina de café revela los siguientes hallazgos:
@@ -169,5 +215,12 @@ Ciclo semanal: Tanto la ACF como la descomposición STL confirman un ciclo de 7 
 
 Alta variabilidad residual: El residuo de la descomposición STL muestra fluctuaciones significativas (hasta ±300), lo que sugiere que las ventas tienen un componente impredecible. Esto podría deberse a eventos externos (festivos, promociones), que vale la pena investigar para mejorar las predicciones.
 
-En resumen, las ventas de la máquina de café presentan patrones claros a nivel semanal y estacional. Sin embargo, la alta variabilidad residual indica la necesidad de un análisis más profundo de factores externos para mejorar la previsión y gestión del negocio.
+Estacionariedad y transformaciones: La serie original es estacionaria (prueba ADF, valor p = 0.0345 < 0.05), por lo que la diferenciación no es necesaria. La transformación log
+ estabiliza la varianza, reduciendo la magnitud de las fluctuaciones (de un rango de 23.02 a 800 a  ~3.14 a ~6.68 en la escala logarítmica). Aunque la transformación no elimina la tendencia estacional ni el ciclo semanal, mejora la estabilidad de la serie, lo que facilita el modelado posterior. Un modelo como SARIMA puede ser adecuado para capturar la estacionalidad semanal y la tendencia estacional a largo plazo.
+
+
+En resumen, las ventas de la máquina de café presentan patrones claros a nivel semanal y estacional. La serie es estacionaria, por lo que está lista para modelado sin diferenciación. La transformación log⁡(y)
+ mejora la estabilidad de la varianza, haciendo la serie más adecuada para modelos como SARIMA, que pueden capturar el ciclo estacional semanal y la tendencia estacional.
+
+
 

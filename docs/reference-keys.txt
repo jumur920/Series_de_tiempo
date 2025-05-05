@@ -1,0 +1,17 @@
+fig:promedio-movil
+fig:rezagos
+introducción
+justificación-de-la-elección
+descripción-de-la-información-a-utilizar
+fuentes-y-permisos-de-uso
+análisis-grafico-de-series-de-tiempo
+metodología
+datos
+promedio-móvil
+función-de-autocorrelación-acf
+descomposición-stl
+estacionariedad-diferenciación-y-transformaciones
+análisis-de-estacionariedad
+diferenciación
+transformaciones
+conclusiones
