@@ -11,7 +11,11 @@ Los datos abarcan un periodo de 385 días, desde abril 01 de 2024 hasta abril 23
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.align = 'center', echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 8, fig.height = 5, dev = "png", dpi = 300,
+                      fig.retina = 2, fig.show = 'hold', include = TRUE,
+                      out.width = "100%", fig.cap = "")
 library(tidyverse)
 library(zoo)
 library(forecast)
@@ -193,7 +197,7 @@ ventas_diarias_log <- data.frame(
 
 p_log <- ggplot(ventas_diarias_log, aes(x = fecha, y = valor_log)) +
   geom_line() +
-  labs(title = "Serie transformada (log(y))", x = "Fecha", y = "Log(Valor total)") +
+  labs(title = "Serie transformada log(y)", x = "Fecha", y = "Log(Valor total)") +
   theme_minimal()
 p_log
 ```

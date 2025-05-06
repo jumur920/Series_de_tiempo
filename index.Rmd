@@ -3,7 +3,13 @@ title: "Pronóstico de Ventas de Café en Máquinas Expendedoras"
 author: "Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián
   Villa Infante"
 date: "`r Sys.Date()`"
-output: pdf_document
+output: 
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: section
+    css: style.css
+    knit: "bookdown:::render_book"
 documentclass: book
 bibliography:
 - book.bib

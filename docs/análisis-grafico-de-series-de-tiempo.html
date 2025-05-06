@@ -160,8 +160,8 @@ div.csl-indent {
 <div id="promedio-móvil" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Promedio móvil<a href="análisis-grafico-de-series-de-tiempo.html#promedio-móvil" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Promedio móvil: Se calculó un promedio móvil de 7 días para suavizar las fluctuaciones diarias y destacar tendencias generales en las ventas. La siguiente gráfica muestra las ventas diarias (línea azul) junto con el promedio móvil (línea naranja).</p>
-<div class="figure"><span style="display:block;" id="fig:promedio-movil"></span>
-<img src="_main_files/figure-html/promedio-movil-1.png" alt="Ventas diarias con promedio móvil" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:promedio-movil"></span>
+<img src="_main_files/figure-html/promedio-movil-1.png" alt="Ventas diarias con promedio móvil" width="100%" />
 <p class="caption">
 Figure 2.1: Ventas diarias con promedio móvil
 </p>
@@ -176,8 +176,8 @@ Abril-julio 2024: Las ventas promedio crecen de ~300 a ~400, indicando un aument
 <div id="función-de-autocorrelación-acf" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Función de Autocorrelación (ACF)<a href="análisis-grafico-de-series-de-tiempo.html#función-de-autocorrelación-acf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La función de autocorrelación (ACF) mide la correlación de las ventas diarias consigo mismas en diferentes rezagos, ayudando a identificar patrones temporales y ciclos estacionales.</p>
-<div class="figure"><span style="display:block;" id="fig:rezagos"></span>
-<img src="_main_files/figure-html/rezagos-1.png" alt="Autocorrelación de ventas" width="672" />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rezagos"></span>
+<img src="_main_files/figure-html/rezagos-1.png" alt="Autocorrelación de ventas" width="100%" />
 <p class="caption">
 Figure 2.2: Autocorrelación de ventas
 </p>
@@ -191,7 +191,7 @@ Rezagos 1 a 6: Autocorrelaciones significativas (~0.3 a 0.4), indicando una depe
 <div id="descomposición-stl" class="section level3 hasAnchor" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Descomposición STL<a href="análisis-grafico-de-series-de-tiempo.html#descomposición-stl" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La descomposición STL separa la serie temporal en tres componentes: tendencia, estacionalidad (ciclo semanal) y residuo.</p>
-<p><img src="_main_files/figure-html/arreglo-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/arreglo-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>La descomposición STL revela los siguientes patrones:
 Tendencia: Similar al promedio móvil, muestra un aumento inicial (abril-julio 2024), un pico en octubre (500), una caída en invierno (300), y una recuperación en primavera (~400). Esto confirma una tendencia estacional a largo plazo.</p>
 <p>Estacionalidad: Oscila entre -20 y 20, con un ciclo que se repite cada 7 días, confirmando el patrón semanal identificado por la ACF. Aunque el efecto estacional es pequeño, indica variaciones según el día de la semana (por ejemplo, mayor demanda los fines de semana).</p>
@@ -221,7 +221,7 @@ Tendencia: Similar al promedio móvil, muestra un aumento inicial (abril-julio 2
 <p>La serie original muestra alta variabilidad, con picos grandes (~800) y caídas a 23.02. Esto sugiere una varianza no constante, que podría beneficiarse de una transformación logarítmica para estabilizar la variabilidad. Se verifica si hay valores no positivos::</p>
 <pre><code>## [1] 23.02</code></pre>
 <p>El valor mínimo es 23.02, un valor positivo y no cercano a 0. Por lo tanto, se puede aplicar una transformación logarítmica log⁡(y).</p>
-<p><img src="_main_files/figure-html/translog-1.png" width="672" />
+<p><img src="_main_files/figure-html/translog-1.png" width="100%" style="display: block; margin: auto;" />
 La gráfica de la serie transformada muestra que los picos se han reducido en escala. Por ejemplo, los picos más altos, que antes alcanzaban 800, ahora están en el rango de log⁡(800)≈6.6, y las caídas a 23.02 ahora son log⁡(23.02)≈3.1. Esto indica que la transformación estabiliza la varianza, haciendo las fluctuaciones más uniformes a lo largo del tiempo. La transformación no elimina la tendencia estacional ni el ciclo semanal ya que la transformación logarítmica afecta principalmente la varianza, no la tendencia ni la estacionalidad.
 Aunque la serie es estacionaria sin transformación, esta transformación mejora la estabilidad de la serie, lo que puede facilitar el modelado posterior (por ejemplo, SARIMA) y puede mejorar la precisión de las predicciones.
 ### Justificación
@@ -302,7 +302,7 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "section"
 }
 });
 });
