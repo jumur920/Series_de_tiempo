@@ -125,6 +125,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>2.2.1</b> Análisis de Estacionariedad</a></li>
 <li class="chapter" data-level="2.2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#diferenciación"><i class="fa fa-check"></i><b>2.2.2</b> Diferenciación</a></li>
 <li class="chapter" data-level="2.2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#transformaciones"><i class="fa fa-check"></i><b>2.2.3</b> Transformaciones</a></li>
+<li class="chapter" data-level="2.2.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#justificación"><i class="fa fa-check"></i><b>2.2.4</b> Justificación</a></li>
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>2.3</b> Conclusiones</a></li>
 </ul></li>
@@ -223,9 +224,11 @@ Tendencia: Similar al promedio móvil, muestra un aumento inicial (abril-julio 2
 <p>El valor mínimo es 23.02, un valor positivo y no cercano a 0. Por lo tanto, se puede aplicar una transformación logarítmica log⁡(y).</p>
 <p><img src="_main_files/figure-html/translog-1.png" width="100%" style="display: block; margin: auto;" />
 La gráfica de la serie transformada muestra que los picos se han reducido en escala. Por ejemplo, los picos más altos, que antes alcanzaban 800, ahora están en el rango de log⁡(800)≈6.6, y las caídas a 23.02 ahora son log⁡(23.02)≈3.1. Esto indica que la transformación estabiliza la varianza, haciendo las fluctuaciones más uniformes a lo largo del tiempo. La transformación no elimina la tendencia estacional ni el ciclo semanal ya que la transformación logarítmica afecta principalmente la varianza, no la tendencia ni la estacionalidad.
-Aunque la serie es estacionaria sin transformación, esta transformación mejora la estabilidad de la serie, lo que puede facilitar el modelado posterior (por ejemplo, SARIMA) y puede mejorar la precisión de las predicciones.
-### Justificación
-Diferenciación: No es necesaria, ya que la serie es estacionaria según la prueba ADF (valor p = 0.0345 &lt; 0.05).</p>
+Aunque la serie es estacionaria sin transformación, esta transformación mejora la estabilidad de la serie, lo que puede facilitar el modelado posterior (por ejemplo, SARIMA) y puede mejorar la precisión de las predicciones.</p>
+</div>
+<div id="justificación" class="section level3 hasAnchor" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Justificación<a href="análisis-grafico-de-series-de-tiempo.html#justificación" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Diferenciación: No es necesaria, ya que la serie es estacionaria según la prueba ADF (valor p = 0.0345 &lt; 0.05).</p>
 <p>Transformación logarítmica: Aunque no es estrictamente necesaria para la estacionariedad, la transformación log⁡(y)
 ayuda a estabilizar la varianza de la serie, que tiene alta variabilidad.</p>
 </div>

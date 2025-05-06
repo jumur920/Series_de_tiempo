@@ -203,7 +203,9 @@ p_log
 ```
 La gráfica de la serie transformada muestra que los picos se han reducido en escala. Por ejemplo, los picos más altos, que antes alcanzaban 800, ahora están en el rango de log⁡(800)≈6.6, y las caídas a 23.02 ahora son log⁡(23.02)≈3.1. Esto indica que la transformación estabiliza la varianza, haciendo las fluctuaciones más uniformes a lo largo del tiempo. La transformación no elimina la tendencia estacional ni el ciclo semanal ya que la transformación logarítmica afecta principalmente la varianza, no la tendencia ni la estacionalidad.
 Aunque la serie es estacionaria sin transformación, esta transformación mejora la estabilidad de la serie, lo que puede facilitar el modelado posterior (por ejemplo, SARIMA) y puede mejorar la precisión de las predicciones.
+
 ### Justificación
+
 Diferenciación: No es necesaria, ya que la serie es estacionaria según la prueba ADF (valor p = 0.0345 < 0.05).
 
 Transformación logarítmica: Aunque no es estrictamente necesaria para la estacionariedad, la transformación log⁡(y)
