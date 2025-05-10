@@ -1,34 +1,214 @@
-# Cross-references {#cross}
+# Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)
 
-Cross-references make it easier for your readers to find and link to elements in your book.
+El método Holt-Winters modela promedio, tendencia y estacionalidad. Dado que la serie tiene un ciclo semanal y una tendencia estacional a largo plazo, se probaron los siguientes tipos de suavizamiento: exponencial simple, aditivo y multiplicativo. 
+Se aplican los métodos de Holt-Winters para modelar y predecir las ventas diarias para los próximos 7 días (un ciclo semanal).
 
-## Chapters and sub-chapters
+### Suavizamiento Exponencial Simple
 
-There are two steps to cross-reference any heading:
+El suavizamiento exponencial simple modela solo el promedio de la serie y no considera tendencia ni estacionalidad, por lo que no es ideal para la serie de tiempo que tiene ambos componentes. Se aplicó a la serie transformada log(y) para evaluar su comportamiento en una escala con varianza estabilizada.
 
-1. Label the heading: `# Hello world {#nice-label}`. 
-    - Leave the label off if you like the automated heading generated based on your heading title: for example, `# Hello world` = `# Hello world {#hello-world}`.
-    - To label an un-numbered heading, use: `# Hello world {-#nice-label}` or `{# Hello world .unnumbered}`.
+```{r ses-log, echo=FALSE, fig.cap="Suavizamiento Exponencial Simple"}
 
-1. Next, reference the labeled heading anywhere in the text using `\@ref(nice-label)`; for example, please see Chapter \@ref(cross). 
-    - If you prefer text as the link instead of a numbered reference use: [any text you want can go here](#cross).
+# Extraer los últimos 7 días reales
+ultimos_7_dias <- tail(ventas_diarias, 30)
+fechas_reales <- ultimos_7_dias$fecha
+valores_reales <- ultimos_7_dias$valor_total
 
-## Captioned figures and tables
+# Suavizamiento Exponencial Simple
+ses_log <- ses(ts_ventas_log, h = 7)
 
-Figures and tables *with captions* can also be cross-referenced from elsewhere in your book using `\@ref(fig:chunk-label)` and `\@ref(tab:chunk-label)`, respectively.
+# Fechas para el pronóstico (7 días después del último dato real)
+ultima_fecha <- max(fechas_reales)
+fechas_pronostico <- seq(ultima_fecha + 1, by = "day", length.out = 7)
 
-See Figure \@ref(fig:nice-fig).
+# Extraer los últimos 7 días reales (en escala logarítmica)
+ultimos_7_dias_log <- tail(ventas_diarias_log, 30)
+fechas_reales_log <- ultimos_7_dias_log$fecha
+valores_reales_log <- ultimos_7_dias_log$valor_log
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center', fig.alt='Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases.'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
+# Valores del pronóstico
+valores_pronostico_log <- ses_log$mean
+intervalo_inf_log <- ses_log$lower[, 2]  # Intervalo de confianza 95%
+intervalo_sup_log <- ses_log$upper[, 2]  # Intervalo de confianza 95%
 
-Don't miss Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
+# Crear un data frame para la gráfica
+df_real_log <- data.frame(
+  Fecha = fechas_reales_log,
+  Valor = valores_reales_log,
+  Tipo = "Real",
+  Lower = NA,
+  Upper = NA
 )
+
+df_pronostico_log <- data.frame(
+  Fecha = fechas_pronostico,
+  Valor = as.numeric(valores_pronostico_log),
+  Tipo = "Pronóstico",
+  Lower = as.numeric(intervalo_inf_log),
+  Upper = as.numeric(intervalo_sup_log)
+)
+
+df_grafica_log <- rbind(df_real_log, df_pronostico_log)
+
+# Gráfica
+ggplot(df_grafica_log, aes(x = Fecha, y = Valor, color = Tipo)) +
+  geom_line(data = subset(df_grafica_log, Tipo == "Real"), size = 1) +
+  geom_line(data = subset(df_grafica_log, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
+  geom_ribbon(data = subset(df_grafica_log, Tipo == "Pronóstico"), 
+              aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
+  labs(title = "Suavizamiento Exponencial Simple (log(y)): Últimos 7 días y pronóstico",
+       x = "Fecha", y = "Log(Valor total)",
+       color = "Tipo") +
+  theme_minimal()
+
 ```
+
+Como el suavizamiento exponencial simple solo modela la tendencia de la serie (sin tendencia ni estacionalidad), las predicciones son esencialmente un promedio suavizado de los valores históricos. En la escala logarítmica, las predicciones se mantienen constantes en un rango de ~5.8 a ~6 (equivalente a ~300 a ~400 en la escala original), sin reflejar el ciclo semanal ni la tendencia estacional.
+
+La gráfica evidencia que este modelo no captura los patrones semanales (como mayores ventas los fines de semana) ni la tendencia estacional a largo plazo.
+
+
+
+### Holt-Winters Aditivo
+
+En el modelo aditivo, la estacionalidad tiene una amplitud constante, lo que es consistente con la componente estacional de la descomposición STL (oscilando entre -20 y 20).
+
+
+
+```{r hw-additive, echo=FALSE, fig.cap="Holt-Winters Aditivo"}
+
+hw_additive <- HoltWinters(ts_ventas, seasonal = "additive")
+hw_additive_forecast <- forecast(hw_additive, h = 7)
+
+
+# Valores del pronóstico
+valores_pronostico <- hw_additive_forecast$mean
+intervalo_inf <- hw_additive_forecast$lower[, 2]  # Intervalo de confianza 95%
+intervalo_sup <- hw_additive_forecast$upper[, 2]  # Intervalo de confianza 95%
+
+# Crear un data frame para la gráfica
+# Crear un data frame para la gráfica
+df_real <- data.frame(
+  Fecha = fechas_reales,
+  Valor = valores_reales,
+  Tipo = "Real",
+  Lower = NA,  # Agregar columna Lower con NA
+  Upper = NA   # Agregar columna Upper con NA
+)
+
+df_pronostico <- data.frame(
+  Fecha = fechas_pronostico,
+  Valor = as.numeric(valores_pronostico),
+  Tipo = "Pronóstico",
+  Lower = as.numeric(intervalo_inf),
+  Upper = as.numeric(intervalo_sup)
+)
+
+df_grafica <- rbind(df_real, df_pronostico)
+
+# Gráfica
+ggplot(df_grafica, aes(x = Fecha, y = Valor, color = Tipo)) +
+  geom_line(data = subset(df_grafica, Tipo == "Real"), size = 1) +
+  geom_line(data = subset(df_grafica, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
+  geom_ribbon(data = subset(df_grafica, Tipo == "Pronóstico"), 
+              aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
+  labs(title = enc2utf8("Holt-Winters Aditivo: Últimos 7 días y pronóstico"),
+       x = "Fecha", y = "Valor total",
+       color = "Tipo") +
+  theme_minimal()
+
+
+```
+
+El pronóstico con este metodo refleja el ciclo semanal que tiene la serie. La prediccion tiene picos y caidas que coinciden con el compotamiento fluctuante de las ventas reales.
+Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (entre -20 y 20). Esto significa que los picos y caídas en las ventas tienen una diferencia fija en valor absoluto.
+
+ Los intervalos de confianza son relativamente estrechos, lo que indica que el modelo tiene una buena certeza en sus predicciones, aunque la alta variabilidad residual (±300) podría hacer que las ventas reales se desvíen de estas predicciones.
+
+
+
+
+### Holt-Winters Multiplicativo
+
+En el modelo multiplicativo, la amplitud de la estacionalidad varía con la tendencia de la serie. Esto puede ser significativo cuando las fluctuaciones sean más grandes en periodos de ventas altas.
+
+```{r hw-multiplicative, echo=FALSE, fig.cap="Holt-Winters Multiplicativo"}
+
+# Holt-Winters Multiplicativo
+hw_multiplicative <- HoltWinters(ts_ventas, seasonal = "multiplicative")
+hw_multiplicative_forecast <- forecast(hw_multiplicative, h = 7)
+
+# Valores del pronóstico
+valores_pronostico <- hw_multiplicative_forecast$mean
+intervalo_inf <- hw_multiplicative_forecast$lower[, 2]  # Intervalo de confianza 95%
+intervalo_sup <- hw_multiplicative_forecast$upper[, 2]  # Intervalo de confianza 95%
+
+# Crear un data frame para la gráfica
+df_real <- data.frame(
+  Fecha = fechas_reales,
+  Valor = valores_reales,
+  Tipo = "Real",
+  Lower = NA,
+  Upper = NA
+)
+
+df_pronostico <- data.frame(
+  Fecha = fechas_pronostico,
+  Valor = as.numeric(valores_pronostico),
+  Tipo = "Pronóstico",
+  Lower = as.numeric(intervalo_inf),
+  Upper = as.numeric(intervalo_sup)
+)
+
+df_grafica <- rbind(df_real, df_pronostico)
+
+# Gráfica
+ggplot(df_grafica, aes(x = Fecha, y = Valor, color = Tipo)) +
+  geom_line(data = subset(df_grafica, Tipo == "Real"), size = 1) +
+  geom_line(data = subset(df_grafica, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
+  geom_ribbon(data = subset(df_grafica, Tipo == "Pronóstico"), 
+              aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
+  labs(title = enc2utf8("Holt-Winters Multiplicativo: Últimos 7 días y pronóstico"),
+       x = "Fecha", y = "Valor total",
+       color = "Tipo") +
+  theme_minimal()
+
+```
+
+Este pronóstico también refleja el ciclo semanal que tiene la serie, pero asume que la amplitud de la estacionalidad varía con la tendencia de la serie. Por ejemplo, si las ventas promedio aumentan, las diferencias entre días de alta y baja demanda (como fines de semana vs. días laborales) se amplifican.
+
+Los intervalos de confianza son similares a los del modelo aditivo, pero tiene una amplitud menor
+en este rango de tiempo posiblemente porque la tendencia es más estable y el enfoque multiplicativo de variabilidad.
+
+### Comparación de Modelos Holt-Winters
+
+Se compara la precisión de los modelos aditivo y multiplicativo usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE):
+
+```{r hw-compare, echo=FALSE}
+# Precisión del modelo aditivo
+accuracy_add <- accuracy(hw_additive_forecast)
+# Precisión del modelo multiplicativo
+accuracy_mult <- accuracy(hw_multiplicative_forecast)
+
+# Mostrar RMSE y MAE
+rbind(
+  Additive = c(RMSE = accuracy_add[1, "RMSE"], MAE = accuracy_add[1, "MAE"]),
+  Multiplicative = c(RMSE = accuracy_mult[1, "RMSE"], MAE = accuracy_mult[1, "MAE"])
+)
+
+
+```
+
+El modelo Holt-Winters Aditivo es mejor, ya que tiene un RMSE y un MAE más bajos en comparación con el modelo Holt-Winters Multiplicativo. Esto indica que el modelo aditivo tiene un mejor ajuste a los datos y comete errores de predicción más pequeños en promedio.
+
+Además, la descomposición STL mostró que la estacionalidad de las ventas tiene una amplitud constante, lo que favorece al modelo aditivo, ya que este asume una estacionalidad constante, mientras que el modelo multiplicativo asume que la estacionalidad varía con el nivel de la serie. Dado que las ventas en ciertos meses presentan variaciones más grandes afectan la tendencia y generar diferencias entre los modelos, por esto el modelo aditivo es más adecuado.
+
+En las gráficas de pronóstico, los intervalos de confianza al 95% del método Holt-Winters Multiplicativo presentan una amplitud menor en comparación con los del método Aditivo. Esto indica que el modelo multiplicativo estima una menor incertidumbre en sus predicciones, posiblemente debido a que la tendencia de la serie es relativamente estable en este periodo. En contraste, el modelo aditivo, al asumir una estacionalidad constante, genera intervalos más amplios.
+
+RMSE (Root Mean Squared Error): El RMSE mide la raíz del promedio de los errores al cuadrado. Esta medida
+Penaliza más los errores grandes al elevarlos al cuadrado, lo que lo hace sensible a valores atípicos.
+
+MAE (Mean Absolute Error): El MAE mide el promedio de los errores absolutos. Representa el error promedio de las predicciones de manera directa, sin dar mayor peso a errores grandes, lo que lo hace más robusto frente a valores atípicos.
+
+La diferencia entre los modelos es de 3.416 en RMSE (2.43%) y 4.0018 en MAE (3.58%). Esta diferencia no se considera significativa, ya que es relativamente pequeña y en valor se diferencia entre 3-4 dólares frente a ventas promedio de 400 y una variabilidad residual de ±300. Dado que la diferencia es insignificante, ambos modelos tienen un rendimiento similar, aunque el aditivo sigue siendo preferible por su mejor ajuste y consistencia teórica con la estacionalidad constante.
+

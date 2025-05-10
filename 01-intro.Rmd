@@ -47,7 +47,9 @@ Promedio móvil: Se calculó un promedio móvil de 7 días para suavizar las flu
 calcular_promedio_movil <- function(serie, n = 7) {
   return(rollmean(serie, k = n, fill = NA, align = "center"))
 }
+
 ventas_diarias$promedio_movil <- calcular_promedio_movil(ts_ventas)
+
 ggplot(ventas_diarias, aes(x = fecha)) +
   geom_line(aes(y = valor_total, color = "Ventas diarias"), size = 0.5) +
   geom_line(aes(y = promedio_movil, color = "Promedio móvil (7 días)"), size = 1) +

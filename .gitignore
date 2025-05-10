@@ -1,4 +1,5 @@
 _book/
+_bookdown_files
 *.log
 *.aux
 *.toc

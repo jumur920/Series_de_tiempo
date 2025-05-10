@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Métodos de Holt-Winters y Suavizamiento Exponencial | Pronóstico de Ventas de Café en Máquinas Expendedoras</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Métodos de Holt-Winters y Suavizamiento Exponencial | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Métodos de Holt-Winters y Suavizamiento Exponencial | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
+
+
+<meta name="date" content="2025-05-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-grafico-de-series-de-tiempo.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#justificación-de-la-elección"><i class="fa fa-check"></i><b>1.1</b> Justificación de la Elección</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#descripción-de-la-información-a-utilizar"><i class="fa fa-check"></i><b>1.2</b> Descripción de la Información a Utilizar</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#fuentes-y-permisos-de-uso"><i class="fa fa-check"></i><b>1.3</b> Fuentes y Permisos de Uso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>2</b> Análisis grafico de series de tiempo</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#metodología"><i class="fa fa-check"></i><b>2.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#datos"><i class="fa fa-check"></i><b>2.1.1</b> Datos</a></li>
+<li class="chapter" data-level="2.1.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#promedio-móvil"><i class="fa fa-check"></i><b>2.1.2</b> Promedio móvil</a></li>
+<li class="chapter" data-level="2.1.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#función-de-autocorrelación-acf"><i class="fa fa-check"></i><b>2.1.3</b> Función de Autocorrelación (ACF)</a></li>
+<li class="chapter" data-level="2.1.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#descomposición-stl"><i class="fa fa-check"></i><b>2.1.4</b> Descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#estacionariedad-diferenciación-y-transformaciones"><i class="fa fa-check"></i><b>2.2</b> Estacionariedad, Diferenciación y Transformaciones</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>2.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#diferenciación"><i class="fa fa-check"></i><b>2.2.2</b> Diferenciación</a></li>
+<li class="chapter" data-level="2.2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#transformaciones"><i class="fa fa-check"></i><b>2.2.3</b> Transformaciones</a></li>
+<li class="chapter" data-level="2.2.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#justificación"><i class="fa fa-check"></i><b>2.2.4</b> Justificación</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>2.3</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><i class="fa fa-check"></i><b>3</b> Métodos de Holt-Winters y Suavizamiento Exponencial</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-suavizamiento-exponencial-triple"><i class="fa fa-check"></i><b>3.1</b> Holt-Winters (Suavizamiento Exponencial Triple)</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.1.1</b> Suavizamiento Exponencial Simple</a></li>
+<li class="chapter" data-level="3.1.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.1.2</b> Holt-Winters Aditivo</a></li>
+<li class="chapter" data-level="3.1.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.1.3</b> Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="3.1.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.1.4</b> Comparación de Modelos Holt-Winters</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico de Ventas de Café en Máquinas Expendedoras</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="métodos-de-holt-winters-y-suavizamiento-exponencial" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Métodos de Holt-Winters y Suavizamiento Exponencial<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#métodos-de-holt-winters-y-suavizamiento-exponencial" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Se aplicaron los métodos de Holt-Winters (aditivo y multiplicativo) y suavizamiento exponencial simple para modelar y predecir las ventas diarias, teniendo en cuenta la tendencia estacional y el ciclo semanal identificados previamente.</p>
+<div id="holt-winters-suavizamiento-exponencial-triple" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Holt-Winters (Suavizamiento Exponencial Triple)<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-suavizamiento-exponencial-triple" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El método Holt-Winters modela nivel, tendencia y estacionalidad. Dado que la serie tiene un ciclo semanal (frecuencia = 7) y una tendencia estacional a largo plazo, se probaron dos enfoques: aditivo y multiplicativo. Se generaron predicciones para los próximos 7 días (un ciclo semanal).</p>
+<div id="suavizamiento-exponencial-simple" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Suavizamiento Exponencial Simple<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#suavizamiento-exponencial-simple" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El suavizamiento exponencial simple modela solo el nivel de la serie y no considera tendencia ni estacionalidad, por lo que no es ideal para nuestra serie, que tiene ambos componentes. Sin embargo, se aplicó a la serie transformada log⁡(y)(y)(y)
+para evaluar su comportamiento en una escala con varianza estabilizada.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ses-log"></span>
+<img src="_main_files/figure-html/ses-log-1.png" alt="Suavizamiento Exponencial Simple" width="100%" />
+<p class="caption">
+Figure 3.1: Suavizamiento Exponencial Simple
+</p>
+</div>
+<p>Predicciones planas: Como el suavizamiento exponencial simple solo modela el nivel de la serie (sin tendencia ni estacionalidad), las predicciones son esencialmente un promedio suavizado de los valores históricos. En la escala logarítmica, las predicciones se mantienen constantes en un rango de ~5.8 a ~6 (equivalente a ~300 a ~400 en la escala original), sin reflejar el ciclo semanal ni la tendencia estacional.</p>
+<p>Inadecuación del modelo: La gráfica evidencia que este modelo no captura los patrones semanales (como mayores ventas los fines de semana) ni la tendencia estacional a largo plazo (por ejemplo, la recuperación en primavera). Esto lo hace menos útil para la planificación en comparación con los modelos Holt-Winters.</p>
+</div>
+<div id="holt-winters-aditivo" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Holt-Winters Aditivo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-aditivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>En el modelo aditivo, la estacionalidad tiene una amplitud constante, lo que es consistente con la componente estacional de la descomposición STL (oscilando entre -20 y 20).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:hw-additive"></span>
+<img src="_main_files/figure-html/hw-additive-1.png" alt="Holt-Winters Aditivo" width="100%" />
+<p class="caption">
+Figure 3.2: Holt-Winters Aditivo
+</p>
+</div>
+<p>Patrón semanal: El pronóstico refleja el ciclo semanal identificado previamente (frecuencia = 7). Por ejemplo, si los fines de semana (sábado y domingo) tienen históricamente ventas más altas, el pronóstico para el 3 y 4 de mayo (sábado y domingo) debería mostrar un aumento en comparación con los días laborales.</p>
+<p>Estacionalidad constante: Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (estacionalidad entre -20 y 20). Esto significa que los picos y caídas en las ventas (por ejemplo, fines de semana vs. días laborales) tienen una diferencia fija en valor absoluto.</p>
+</div>
+<div id="holt-winters-multiplicativo" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Holt-Winters Multiplicativo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#holt-winters-multiplicativo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>En el modelo multiplicativo, la amplitud de la estacionalidad varía con el nivel de la serie. Esto podría ser relevante dado que las fluctuaciones son más grandes en periodos de ventas altas (como octubre).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:hw-multiplicative"></span>
+<img src="_main_files/figure-html/hw-multiplicative-1.png" alt="Holt-Winters Multiplicativo" width="100%" />
+<p class="caption">
+Figure 3.3: Holt-Winters Multiplicativo
+</p>
+</div>
+<p>Patrón semanal: El pronóstico refleja el ciclo semanal identificado previamente (frecuencia = 7). Por ejemplo, si los fines de semana (sábado y domingo) tienen históricamente ventas más altas, el pronóstico para el 3 y 4 de mayo (sábado y domingo) debería mostrar un aumento en comparación con los días laborales.</p>
+<p>Estacionalidad constante: Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (estacionalidad entre -20 y 20). Esto significa que los picos y caídas en las ventas (por ejemplo, fines de semana vs. días laborales) tienen una diferencia fija en valor absoluto.</p>
+</div>
+<div id="comparación-de-modelos-holt-winters" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Comparación de Modelos Holt-Winters<a href="métodos-de-holt-winters-y-suavizamiento-exponencial.html#comparación-de-modelos-holt-winters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Comparamos la precisión de los modelos aditivo y multiplicativo usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE):</p>
+<pre><code>##                    RMSE      MAE
+## Additive       140.4213 111.8802
+## Multiplicative 143.8373 115.8820</code></pre>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
+</div>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-grafico-de-series-de-tiempo.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-cross-refs.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

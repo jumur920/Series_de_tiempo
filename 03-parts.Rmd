@@ -8,5 +8,56 @@ Add an unnumbered part: `# (PART\*) Act one {-}` (followed by `# A chapter`)
 
 Add an appendix as a special kind of un-numbered part: `# (APPENDIX) Other stuff {-}` (followed by `# A chapter`). Chapters in an appendix are prepended with letters instead of numbers.
 
+```{r hw-additive, echo=TRUE, fig.cap="Holt-Winters Aditivo: Últimos 7 días y pronóstico"}
 
+hw_additive <- HoltWinters(ts_ventas, seasonal = "additive")
+hw_additive_forecast <- forecast(hw_additive, h = 7)
+
+p_hw_add <- autoplot(hw_additive_forecast) +
+  labs(title = "Holt-Winters Aditivo: Ventas diarias",
+       x = "Fecha", y = "Valor total") +
+  theme_minimal()
+p_hw_add
+
+```
+
+```{r hw-multiplicative, echo=TRUE, fig.cap="Holt-Winters Multiplicativo: Ventas diarias"}
+
+
+hw_multiplicative <- HoltWinters(ts_ventas, seasonal = "multiplicative")
+hw_multiplicative_forecast <- forecast(hw_multiplicative, h = 7)
+
+p_hw_mult <- autoplot(hw_multiplicative_forecast) +
+  labs(title = "Holt-Winters Multiplicativo: Ventas diarias",
+       x = "Fecha", y = "Valor total") +
+  theme_minimal()
+p_hw_mult
+```
+
+```{r hw-compare, echo=TRUE}
+
+
+# Precisión del modelo aditivo
+accuracy_add <- accuracy(hw_additive_forecast)
+# Precisión del modelo multiplicativo
+accuracy_mult <- accuracy(hw_multiplicative_forecast)
+
+# Mostrar RMSE y MAE
+rbind(
+  Additive = c(RMSE = accuracy_add[1, "RMSE"], MAE = accuracy_add[1, "MAE"]),
+  Multiplicative = c(RMSE = accuracy_mult[1, "RMSE"], MAE = accuracy_mult[1, "MAE"])
+)
+```
+
+```{r ses-log, echo=TRUE, fig.cap="Suavizamiento Exponencial Simple (log(y))"}
+
+
+ses_log <- ses(ts_ventas_log, h = 7)
+
+p_ses_log <- autoplot(ses_log) +
+  labs(title = "Suavizamiento Exponencial Simple (log(y))",
+       x = "Fecha", y = "Log(Valor total)") +
+  theme_minimal()
+p_ses_log
+```
 

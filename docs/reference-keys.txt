@@ -1,5 +1,8 @@
 fig:promedio-movil
 fig:rezagos
+fig:ses-log
+fig:hw-additive
+fig:hw-multiplicative
 introducción
 justificación-de-la-elección
 descripción-de-la-información-a-utilizar
@@ -16,3 +19,8 @@ diferenciación
 transformaciones
 justificación
 conclusiones
+métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple
+suavizamiento-exponencial-simple
+holt-winters-aditivo
+holt-winters-multiplicativo
+comparación-de-modelos-holt-winters
