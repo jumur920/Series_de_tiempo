@@ -3,7 +3,7 @@
 El método Holt-Winters modela promedio, tendencia y estacionalidad. Dado que la serie tiene un ciclo semanal y una tendencia estacional a largo plazo, se probaron los siguientes tipos de suavizamiento: exponencial simple, aditivo y multiplicativo. 
 Se aplican los métodos de Holt-Winters para modelar y predecir las ventas diarias para los próximos 7 días (un ciclo semanal).
 
-### Suavizamiento Exponencial Simple
+## Suavizamiento Exponencial Simple
 
 El suavizamiento exponencial simple modela solo el promedio de la serie y no considera tendencia ni estacionalidad, por lo que no es ideal para la serie de tiempo que tiene ambos componentes. Se aplicó a la serie transformada log(y) para evaluar su comportamiento en una escala con varianza estabilizada.
 
@@ -69,7 +69,7 @@ La gráfica evidencia que este modelo no captura los patrones semanales (como ma
 
 
 
-### Holt-Winters Aditivo
+## Holt-Winters Aditivo
 
 En el modelo aditivo, la estacionalidad tiene una amplitud constante, lo que es consistente con la componente estacional de la descomposición STL (oscilando entre -20 y 20).
 
@@ -128,7 +128,7 @@ Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es cons
 
 
 
-### Holt-Winters Multiplicativo
+## Holt-Winters Multiplicativo
 
 En el modelo multiplicativo, la amplitud de la estacionalidad varía con la tendencia de la serie. Esto puede ser significativo cuando las fluctuaciones sean más grandes en periodos de ventas altas.
 
@@ -180,7 +180,7 @@ Este pronóstico también refleja el ciclo semanal que tiene la serie, pero asum
 Los intervalos de confianza son similares a los del modelo aditivo, pero tiene una amplitud menor
 en este rango de tiempo posiblemente porque la tendencia es más estable y el enfoque multiplicativo de variabilidad.
 
-### Comparación de Modelos Holt-Winters
+## Comparación de Modelos Holt-Winters
 
 Se compara la precisión de los modelos aditivo y multiplicativo usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE):
 
