@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
 
 
-<meta name="date" content="2025-05-09" />
+<meta name="date" content="2025-05-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -131,10 +131,10 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><i class="fa fa-check"></i><b>3</b> Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)</a>
 <ul>
-<li class="chapter" data-level="3.0.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.0.1</b> Suavizamiento Exponencial Simple</a></li>
-<li class="chapter" data-level="3.0.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.0.2</b> Holt-Winters Aditivo</a></li>
-<li class="chapter" data-level="3.0.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.0.3</b> Holt-Winters Multiplicativo</a></li>
-<li class="chapter" data-level="3.0.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.0.4</b> Comparación de Modelos Holt-Winters</a></li>
+<li class="chapter" data-level="3.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.1</b> Suavizamiento Exponencial Simple</a></li>
+<li class="chapter" data-level="3.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.2</b> Holt-Winters Aditivo</a></li>
+<li class="chapter" data-level="3.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.3</b> Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="3.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.4</b> Comparación de Modelos Holt-Winters</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -160,8 +160,8 @@ div.csl-indent {
 <h1><span class="header-section-number">Capítulo 3</span> Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>El método Holt-Winters modela promedio, tendencia y estacionalidad. Dado que la serie tiene un ciclo semanal y una tendencia estacional a largo plazo, se probaron los siguientes tipos de suavizamiento: exponencial simple, aditivo y multiplicativo.
 Se aplican los métodos de Holt-Winters para modelar y predecir las ventas diarias para los próximos 7 días (un ciclo semanal).</p>
-<div id="suavizamiento-exponencial-simple" class="section level3 hasAnchor" number="3.0.1">
-<h3><span class="header-section-number">3.0.1</span> Suavizamiento Exponencial Simple<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="suavizamiento-exponencial-simple" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Suavizamiento Exponencial Simple<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>El suavizamiento exponencial simple modela solo el promedio de la serie y no considera tendencia ni estacionalidad, por lo que no es ideal para la serie de tiempo que tiene ambos componentes. Se aplicó a la serie transformada log(y) para evaluar su comportamiento en una escala con varianza estabilizada.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ses-log"></span>
 <img src="_main_files/figure-html/ses-log-1.png" alt="Suavizamiento Exponencial Simple" width="100%" />
@@ -169,11 +169,11 @@ Se aplican los métodos de Holt-Winters para modelar y predecir las ventas diari
 Figure 3.1: Suavizamiento Exponencial Simple
 </p>
 </div>
-<p>Como el suavizamiento exponencial simple solo modela el nivel de la serie (sin tendencia ni estacionalidad), las predicciones son esencialmente un promedio suavizado de los valores históricos. En la escala logarítmica, las predicciones se mantienen constantes en un rango de ~5.8 a ~6 (equivalente a ~300 a ~400 en la escala original), sin reflejar el ciclo semanal ni la tendencia estacional.</p>
+<p>Como el suavizamiento exponencial simple solo modela la tendencia de la serie (sin tendencia ni estacionalidad), las predicciones son esencialmente un promedio suavizado de los valores históricos. En la escala logarítmica, las predicciones se mantienen constantes en un rango de ~5.8 a ~6 (equivalente a ~300 a ~400 en la escala original), sin reflejar el ciclo semanal ni la tendencia estacional.</p>
 <p>La gráfica evidencia que este modelo no captura los patrones semanales (como mayores ventas los fines de semana) ni la tendencia estacional a largo plazo.</p>
 </div>
-<div id="holt-winters-aditivo" class="section level3 hasAnchor" number="3.0.2">
-<h3><span class="header-section-number">3.0.2</span> Holt-Winters Aditivo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="holt-winters-aditivo" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Holt-Winters Aditivo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En el modelo aditivo, la estacionalidad tiene una amplitud constante, lo que es consistente con la componente estacional de la descomposición STL (oscilando entre -20 y 20).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hw-additive"></span>
 <img src="_main_files/figure-html/hw-additive-1.png" alt="Holt-Winters Aditivo" width="100%" />
@@ -181,51 +181,36 @@ Figure 3.1: Suavizamiento Exponencial Simple
 Figure 3.2: Holt-Winters Aditivo
 </p>
 </div>
-<p>El pronóstico refleja el ciclo semanal identificado previamente. Por ejemplo, si los fines de semana (sábado y domingo) tienen históricamente ventas más altas, el pronóstico para el 3 y 4 de mayo (sábado y domingo) debería mostrar un aumento en comparación con los días laborales.</p>
-<p>Estacionalidad constante: Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (estacionalidad entre -20 y 20). Esto significa que los picos y caídas en las ventas (por ejemplo, fines de semana vs. días laborales) tienen una diferencia fija en valor absoluto.</p>
+<p>El pronóstico con este metodo refleja el ciclo semanal que tiene la serie. La prediccion tiene picos y caidas que coinciden con el compotamiento fluctuante de las ventas reales.
+Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (entre -20 y 20). Esto significa que los picos y caídas en las ventas tienen una diferencia fija en valor absoluto.</p>
+<p>Los intervalos de confianza son relativamente estrechos, lo que indica que el modelo tiene una buena certeza en sus predicciones, aunque la alta variabilidad residual (±300) podría hacer que las ventas reales se desvíen de estas predicciones.</p>
 </div>
-<div id="holt-winters-multiplicativo" class="section level3 hasAnchor" number="3.0.3">
-<h3><span class="header-section-number">3.0.3</span> Holt-Winters Multiplicativo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>En el modelo multiplicativo, la amplitud de la estacionalidad varía con el nivel de la serie. Esto podría ser relevante dado que las fluctuaciones son más grandes en periodos de ventas altas (como octubre).</p>
+<div id="holt-winters-multiplicativo" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Holt-Winters Multiplicativo<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En el modelo multiplicativo, la amplitud de la estacionalidad varía con la tendencia de la serie. Esto puede ser significativo cuando las fluctuaciones sean más grandes en periodos de ventas altas.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hw-multiplicative"></span>
 <img src="_main_files/figure-html/hw-multiplicative-1.png" alt="Holt-Winters Multiplicativo" width="100%" />
 <p class="caption">
 Figure 3.3: Holt-Winters Multiplicativo
 </p>
 </div>
-<p>Patrón semanal: El pronóstico refleja el ciclo semanal identificado previamente (frecuencia = 7). Por ejemplo, si los fines de semana (sábado y domingo) tienen históricamente ventas más altas, el pronóstico para el 3 y 4 de mayo (sábado y domingo) debería mostrar un aumento en comparación con los días laborales.</p>
-<p>Estacionalidad constante: Como el modelo es aditivo, la amplitud de las fluctuaciones estacionales es constante, lo que coincide con la descomposición STL (estacionalidad entre -20 y 20). Esto significa que los picos y caídas en las ventas (por ejemplo, fines de semana vs. días laborales) tienen una diferencia fija en valor absoluto.</p>
+<p>Este pronóstico también refleja el ciclo semanal que tiene la serie, pero asume que la amplitud de la estacionalidad varía con la tendencia de la serie. Por ejemplo, si las ventas promedio aumentan, las diferencias entre días de alta y baja demanda (como fines de semana vs. días laborales) se amplifican.</p>
+<p>Los intervalos de confianza son similares a los del modelo aditivo, pero tiene una amplitud menor
+en este rango de tiempo posiblemente porque la tendencia es más estable y el enfoque multiplicativo de variabilidad.</p>
 </div>
-<div id="comparación-de-modelos-holt-winters" class="section level3 hasAnchor" number="3.0.4">
-<h3><span class="header-section-number">3.0.4</span> Comparación de Modelos Holt-Winters<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Comparamos la precisión de los modelos aditivo y multiplicativo usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE):</p>
+<div id="comparación-de-modelos-holt-winters" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Comparación de Modelos Holt-Winters<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se compara la precisión de los modelos aditivo y multiplicativo usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE):</p>
 <pre><code>##                    RMSE      MAE
 ## Additive       140.4213 111.8802
 ## Multiplicative 143.8373 115.8820</code></pre>
-<p>Con base en los resultados proporcionados:
-Holt-Winters Aditivo: RMSE = 140.4213, MAE = 111.8802</p>
-<p>Holt-Winters Multiplicativo: RMSE = 143.8373, MAE = 115.8820</p>
-<p>El modelo Holt-Winters Aditivo es el mejor, ya que tiene un RMSE y un MAE más bajos en comparación con el modelo Holt-Winters Multiplicativo. Esto indica que el modelo aditivo tiene un mejor ajuste a los datos y comete errores de predicción más pequeños en promedio.
-Diferencia en RMSE: El RMSE del modelo aditivo (140.4213) es aproximadamente 3.42 unidades menor que el del modelo multiplicativo (143.8373). El RMSE mide el error cuadrático medio, dando más peso a errores grandes, por lo que un valor más bajo sugiere que el modelo aditivo tiene menos errores grandes en sus predicciones.</p>
-<p>Diferencia en MAE: El MAE del modelo aditivo (111.8802) es aproximadamente 4 unidades menor que el del modelo multiplicativo (115.8820). El MAE mide el error absoluto medio, reflejando el error promedio sin considerar la magnitud de los errores de forma cuadrática, y un valor más bajo indica que el modelo aditivo tiene un mejor rendimiento promedio.</p>
-<p>Además, la descomposición STL mostró que la estacionalidad de las ventas tiene una amplitud constante (oscilando entre -20 y 20), lo que favorece al modelo aditivo, ya que este asume una estacionalidad constante, mientras que el modelo multiplicativo asume que la estacionalidad varía con el nivel de la serie. Dado que las ventas en abril de 2025 (~400) no presentan variaciones extremas que resalten las diferencias entre los modelos, el modelo aditivo es más adecuado para capturar los patrones observados.
-¿Por qué se tomaron estas dos medidas (RMSE y MAE)?
-RMSE (Root Mean Squared Error): El RMSE mide la raíz del promedio de los errores al cuadrado. Es útil porque:
-Penaliza más los errores grandes (al elevarlos al cuadrado), lo que lo hace sensible a valores atípicos. Esto es importante en el contexto de las ventas, ya que errores grandes en la predicción (por ejemplo, subestimar un día de alta demanda como el fin de semana) podrían tener un impacto significativo en la planificación del inventario.</p>
-<p>Proporciona una medida de error en las mismas unidades que la variable original (ventas en unidades monetarias), facilitando la interpretación del error.</p>
-<p>MAE (Mean Absolute Error): El MAE mide el promedio de los errores absolutos, sin elevarlos al cuadrado. Es útil porque:
-Representa el error promedio de las predicciones de manera directa, sin dar mayor peso a errores grandes, lo que lo hace más robusto frente a valores atípicos.</p>
-<p>Es fácil de interpretar, ya que indica el error promedio en las mismas unidades que la variable original. En este caso, un MAE de 111.8802 para el modelo aditivo significa que, en promedio, las predicciones se desvían en ~111.88 unidades monetarias por día.</p>
-<p>Ambas medidas se utilizan juntas porque se complementan: el RMSE destaca el impacto de errores grandes, mientras que el MAE proporciona una visión más equilibrada del error promedio. En este caso, ambas métricas coinciden en que el modelo aditivo tiene un mejor desempeño, lo que refuerza la elección de este modelo para las predicciones.</p>
-<ol start="5" style="list-style-type: decimal">
-<li><strong>Holt-Winters</strong>:
-<ul>
-<li><strong>Holt-Winters Aditivo</strong>: La gráfica de pronóstico (últimos 7 días reales del 24 al 30 de abril de 2025 y pronóstico del 1 al 7 de mayo de 2025) muestra que el modelo captura bien el ciclo semanal, reflejando patrones como mayores ventas los fines de semana (por ejemplo, 3 y 4 de mayo). La estacionalidad tiene una amplitud constante, lo que es consistente con la descomposición STL (oscilaciones entre -20 y 20). Los intervalos de confianza son relativamente estrechos, indicando buena certeza en las predicciones, aunque la alta variabilidad residual podría generar desviaciones.</li>
-<li><strong>Holt-Winters Multiplicativo</strong>: Similar al modelo aditivo, captura el ciclo semanal, pero asume que la amplitud de la estacionalidad varía con el nivel de la serie. En la gráfica de pronóstico, las predicciones son cercanas a las del modelo aditivo, ya que las ventas en abril (~400) no presentan variaciones extremas que resalten las diferencias entre los modelos. Los intervalos de confianza son ligeramente más amplios en días de mayor variabilidad.</li>
-<li><strong>Comparación de precisión</strong>: El modelo Holt-Winters Aditivo tiene un RMSE de 140.4213 y un MAE de 111.8802, mientras que el modelo Multiplicativo tiene un RMSE de 143.8373 y un MAE de 115.8820. El modelo aditivo es preferible, ya que tiene un RMSE y un MAE más bajos, lo que indica un mejor ajuste a los datos y errores de predicción más pequeños. El RMSE penaliza más los errores grandes, siendo útil para evitar subestimaciones en días de alta demanda, mientras que el MAE refleja el error promedio, proporcionando una visión equilibrada del rendimiento. La descomposición STL mostró que la estacionalidad es constante, lo que también favorece al modelo aditivo sobre el multiplicativo.</li>
-<li><strong>Significancia de la diferencia</strong>: La diferencia entre los modelos es de 3.416 en RMSE (un aumento relativo del 2.43%) y 4.0018 en MAE (un aumento relativo del 3.58%). Esta diferencia no se considera significativa, ya que es pequeña en términos relativos (menor al 5%) y absolutos (3-4 unidades frente a ventas promedio de ~400 y una variabilidad residual de ±300). En el contexto del negocio, esta diferencia tiene un impacto mínimo en la planificación del inventario o las decisiones comerciales. Para considerar una diferencia como “grande”, el aumento relativo debería ser al menos del 10% (por ejemplo, un RMSE de 154.46 o más para el modelo multiplicativo), o la diferencia absoluta debería ser de al menos 40-50 unidades (10-12.5% del promedio de ventas), ya que esto podría afectar significativamente la toma de decisiones. Dado que la diferencia es mucho menor, ambos modelos tienen un rendimiento práctico similar, aunque el aditivo sigue siendo preferible por su mejor ajuste y consistencia teórica con la estacionalidad constante.</li>
-</ul></li>
-</ol>
+<p>El modelo Holt-Winters Aditivo es mejor, ya que tiene un RMSE y un MAE más bajos en comparación con el modelo Holt-Winters Multiplicativo. Esto indica que el modelo aditivo tiene un mejor ajuste a los datos y comete errores de predicción más pequeños en promedio.</p>
+<p>Además, la descomposición STL mostró que la estacionalidad de las ventas tiene una amplitud constante, lo que favorece al modelo aditivo, ya que este asume una estacionalidad constante, mientras que el modelo multiplicativo asume que la estacionalidad varía con el nivel de la serie. Dado que las ventas en ciertos meses presentan variaciones más grandes afectan la tendencia y generar diferencias entre los modelos, por esto el modelo aditivo es más adecuado.</p>
+<p>En las gráficas de pronóstico, los intervalos de confianza al 95% del método Holt-Winters Multiplicativo presentan una amplitud menor en comparación con los del método Aditivo. Esto indica que el modelo multiplicativo estima una menor incertidumbre en sus predicciones, posiblemente debido a que la tendencia de la serie es relativamente estable en este periodo. En contraste, el modelo aditivo, al asumir una estacionalidad constante, genera intervalos más amplios.</p>
+<p>RMSE (Root Mean Squared Error): El RMSE mide la raíz del promedio de los errores al cuadrado. Esta medida
+Penaliza más los errores grandes al elevarlos al cuadrado, lo que lo hace sensible a valores atípicos.</p>
+<p>MAE (Mean Absolute Error): El MAE mide el promedio de los errores absolutos. Representa el error promedio de las predicciones de manera directa, sin dar mayor peso a errores grandes, lo que lo hace más robusto frente a valores atípicos.</p>
+<p>La diferencia entre los modelos es de 3.416 en RMSE (2.43%) y 4.0018 en MAE (3.58%). Esta diferencia no se considera significativa, ya que es relativamente pequeña y en valor se diferencia entre 3-4 dólares frente a ventas promedio de 400 y una variabilidad residual de ±300. Dado que la diferencia es insignificante, ambos modelos tienen un rendimiento similar, aunque el aditivo sigue siendo preferible por su mejor ajuste y consistencia teórica con la estacionalidad constante.</p>
 
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div class="csl-entry">
