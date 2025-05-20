@@ -24,3 +24,12 @@ suavizamiento-exponencial-simple
 holt-winters-aditivo
 holt-winters-multiplicativo
 comparación-de-modelos-holt-winters
+ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima
+extensión-de-variables-temporales
+modelo-lineal
+modelo-arima-estacional-sarima
+estructura-del-modelo
+coeficientes-del-modelo
+varianza-del-error-y-criterios-de-información
+métricas-de-error
+comparación-de-modelos

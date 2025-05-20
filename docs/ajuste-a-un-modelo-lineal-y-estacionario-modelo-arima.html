@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 4 Ajuste a un modelo lineal y estacionario (Modelo Arima) | Pronóstico de Ventas de Café en Máquinas Expendedoras</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 4 Ajuste a un modelo lineal y estacionario (Modelo Arima) | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 4 Ajuste a un modelo lineal y estacionario (Modelo Arima) | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
+
+
+<meta name="date" content="2025-05-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#justificación-de-la-elección"><i class="fa fa-check"></i><b>1.1</b> Justificación de la Elección</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#descripción-de-la-información-a-utilizar"><i class="fa fa-check"></i><b>1.2</b> Descripción de la Información a Utilizar</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#fuentes-y-permisos-de-uso"><i class="fa fa-check"></i><b>1.3</b> Fuentes y Permisos de Uso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>2</b> Análisis grafico de series de tiempo</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#metodología"><i class="fa fa-check"></i><b>2.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#datos"><i class="fa fa-check"></i><b>2.1.1</b> Datos</a></li>
+<li class="chapter" data-level="2.1.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#promedio-móvil"><i class="fa fa-check"></i><b>2.1.2</b> Promedio móvil</a></li>
+<li class="chapter" data-level="2.1.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#función-de-autocorrelación-acf"><i class="fa fa-check"></i><b>2.1.3</b> Función de Autocorrelación (ACF)</a></li>
+<li class="chapter" data-level="2.1.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#descomposición-stl"><i class="fa fa-check"></i><b>2.1.4</b> Descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#estacionariedad-diferenciación-y-transformaciones"><i class="fa fa-check"></i><b>2.2</b> Estacionariedad, Diferenciación y Transformaciones</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>2.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#diferenciación"><i class="fa fa-check"></i><b>2.2.2</b> Diferenciación</a></li>
+<li class="chapter" data-level="2.2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#transformaciones"><i class="fa fa-check"></i><b>2.2.3</b> Transformaciones</a></li>
+<li class="chapter" data-level="2.2.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#justificación"><i class="fa fa-check"></i><b>2.2.4</b> Justificación</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>2.3</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><i class="fa fa-check"></i><b>3</b> Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.1</b> Suavizamiento Exponencial Simple</a></li>
+<li class="chapter" data-level="3.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.2</b> Holt-Winters Aditivo</a></li>
+<li class="chapter" data-level="3.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.3</b> Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="3.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.4</b> Comparación de Modelos Holt-Winters</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><i class="fa fa-check"></i><b>4</b> Ajuste a un modelo lineal y estacionario (Modelo Arima)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#extensión-de-variables-temporales"><i class="fa fa-check"></i><b>4.1</b> Extensión de variables temporales</a></li>
+<li class="chapter" data-level="4.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-lineal"><i class="fa fa-check"></i><b>4.2</b> Modelo lineal</a></li>
+<li class="chapter" data-level="4.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-arima-estacional-sarima"><i class="fa fa-check"></i><b>4.3</b> Modelo ARIMA estacional (SARIMA)</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#estructura-del-modelo"><i class="fa fa-check"></i><b>4.3.1</b> Estructura del modelo</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#coeficientes-del-modelo"><i class="fa fa-check"></i><b>4.3.2</b> Coeficientes del modelo</a></li>
+<li class="chapter" data-level="4.3.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#varianza-del-error-y-criterios-de-información"><i class="fa fa-check"></i><b>4.3.3</b> Varianza del error y Criterios de información</a></li>
+<li class="chapter" data-level="4.3.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error"><i class="fa fa-check"></i><b>4.3.4</b> Métricas de error</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos"><i class="fa fa-check"></i><b>4.4</b> Comparación de Modelos</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico de Ventas de Café en Máquinas Expendedoras</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capítulo 4</span> Ajuste a un modelo lineal y estacionario (Modelo Arima)<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="extensión-de-variables-temporales" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Extensión de variables temporales<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#extensión-de-variables-temporales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se va a enriquecer la fuente de datos con información detallada de la serie de tiempo, agregando el día de la semana (lunes, martes, etc.), el mes del año a cada registro diario.</p>
+</div>
+<div id="modelo-lineal" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Modelo lineal<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-lineal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se crea un modelo de regresión lineal para predecir las ventas diarias (valor_total) utilizando las variables temporales creadas (dia_semana, mes).</p>
+<pre><code>## 
+## Call:
+## lm(formula = valor_total ~ dia_semana + mes, data = ventas_diarias)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -320.25  -98.99   -3.92   89.29  413.61 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   166.4158    31.1736   5.338 1.65e-07 ***
+## dia_semanaMon  52.6861    26.5030   1.988  0.04756 *  
+## dia_semanaTue  66.7581    26.5110   2.518  0.01222 *  
+## dia_semanaWed  59.2610    26.5358   2.233  0.02613 *  
+## dia_semanaThu  24.8365    26.5358   0.936  0.34991    
+## dia_semanaFri  77.3926    26.4103   2.930  0.00360 ** 
+## dia_semanaSat  33.9648    26.4935   1.282  0.20065    
+## mesFeb        262.6093    36.3307   7.228 2.86e-12 ***
+## mesMar        105.0106    31.5160   3.332  0.00095 ***
+## mesApr          9.0262    35.7133   0.253  0.80061    
+## mesMay         94.8890    35.9921   2.636  0.00874 ** 
+## mesJun         54.8875    35.7246   1.536  0.12530    
+## mesJul          0.8016    35.4178   0.023  0.98196    
+## mesAug         44.7058    35.4074   1.263  0.20753    
+## mesSep        115.4321    35.7245   3.231  0.00134 ** 
+## mesOct        243.3142    35.4072   6.872 2.73e-11 ***
+## mesNov         73.2084    35.7026   2.051  0.04102 *  
+## mesDec         53.5210    35.4393   1.510  0.13185    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 138.2 on 367 degrees of freedom
+## Multiple R-squared:  0.2743, Adjusted R-squared:  0.2407 
+## F-statistic: 8.159 on 17 and 367 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><img src="_main_files/figure-html/modelo_lienal-1.png" width="100%" style="display: block; margin: auto;" />
+El modelo tiene coeficientes positivos para todos los días y meses, hay algunos días y meses que son significativos, esto es consistente con el comportamiento que se espera de las ventas, pero el R cuadrado ajustado es de solo 0.2407, Esto indica que el modelo explica ~24% de la variabilidad en las ventas. Esto es un resultado muy bajo pero consistente con la alta variabilidad residual (±300) observada en la descomposición STL, que no puede ser capturada completamente por las variables temporales.</p>
+</div>
+<div id="modelo-arima-estacional-sarima" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Modelo ARIMA estacional (SARIMA)<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-arima-estacional-sarima" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dado que la serie es estacionaria (prueba ADF, valor p = 0.0345 &lt; 0.05), se va ajustar un modelo SARIMA para las ventas con el ciclo semanal.</p>
+<pre><code>## Series: ts_ventas 
+## ARIMA(1,0,1)(0,1,1)[7] 
+## 
+## Coefficients:
+##          ar1      ma1     sma1
+##       0.9456  -0.7941  -0.8238
+## s.e.  0.0271   0.0462   0.0438
+## 
+## sigma^2 = 19476:  log likelihood = -2405.17
+## AIC=4818.34   AICc=4818.44   BIC=4834.08
+## 
+## Training set error measures:
+##                    ME     RMSE      MAE       MPE     MAPE      MASE       ACF1
+## Training set 4.685073 137.7336 109.1637 -33.30582 59.42362 0.8025019 -0.0478096</code></pre>
+<p><img src="_main_files/figure-html/ARIMA-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div id="estructura-del-modelo" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Estructura del modelo<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#estructura-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El modelo ARIMA tiene una estructura (1,0,1)(0,1,1)[7].</p>
+<p>Los componentes no estacionales (1,0,1) son:
+p = 1: Componente autorregresivo (AR) de orden 1. Esto confirma que las ventas actuales dependen linealmente de las ventas del día anterior como se vio en la gráfica ACF.</p>
+<p>d = 0: No se aplica diferenciación no estacional, lo cual es consistente con el resultado de la prueba ADF (valor p = 0.0345 &lt; 0.05), que indicó que la serie es estacionaria.</p>
+<p>q = 1: Componente de media móvil (MA) de orden 1. Significa que las ventas actuales dependen de los errores de predicción del día anterior.</p>
+<p>Los componentes estacionales (0,1,1) son:</p>
+<p>P = 0: No hay componente autorregresivo estacional.</p>
+<p>D = 1: Se aplica una diferenciación estacional de orden 1 para eliminar la estacionalidad semanal. Esto significa que el modelo trabaja con las diferencias de las ventas de cada día con el mismo día de la semana anterior (por ejemplo, ventas de un lunes menos las ventas del lunes anterior).</p>
+<p>Q = 1: Componente de media móvil estacional (SMA) de orden 1. Significa que los errores de predicción a nivel estacional también influyen en las ventas.</p>
+<p>s = 7: Frecuencia estacional de 7 días, coincide con los ciclos identificados en la gráfica ACF y la descomposición STL.</p>
+<p>Este modelo SARIMA captura tanto la dependencia a corto plazo (AR(1) y MA(1)) como el ciclo semanal (diferenciación estacional y SMA(1)). Que no haya diferenciación no estacional (d = 0) es consistente, ya que la serie es estacionaria, y la diferenciación estacional (D = 1) elimina el patrón semanal.</p>
+</div>
+<div id="coeficientes-del-modelo" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Coeficientes del modelo<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#coeficientes-del-modelo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>autorregresivo no estacional AR(1):</p>
+<p>ar1 = 0.9456 (s.e. = 0.0271):</p>
+<p>El valor de 0.9456 (cercano a 1) indica una fuerte autocorrelación en las ventas, las ventas de un día están altamente correlacionadas con las del día anterior. Esto es consistente con la ACF, que mostró autocorrelaciones significativas en los primeros rezagos (~0.3 a 0.4).</p>
+<p>El valor del error estándar es 0.0271, al calcular el estadístico t (t = 0.9456 / 0.0271 ≈ 34.89) da 34.89, este valor es mucho mayor a 1.96, por lo que el coeficiente es estadísticamente significativo con un p-valor cercano a 0.</p>
+<p>media móvil no estacional MA(1)
+ma1 = -0.7941 (s.e. = 0.0462):</p>
+<p>El valor negativo indica que los errores de predicción del día anterior tienen un efecto correctivo en las ventas actuales.</p>
+<p>El error estándar es 0.0462, al calcular el estadístico t da -17.19, su valor absoluto es mucho mayor a 1.96, que lo hace también significativo.</p>
+<p>media móvil estacional SMA(1)
+sma1 = -0.8238 (s.e. = 0.0438):</p>
+<p>El valor de -0.8238 indica que los errores de predicción a estacionales también tienen un efecto correctivo ayudando a modelar el ciclo semanal.</p>
+<p>El error estándar es 0.0438, su estadístico t es -18.81 por lo que también es significativo.</p>
+<p>Todos los coeficientes fueron significativos. El término AR(1) captura la dependencia a corto plazo, mientras que el término SMA(1) modela el ciclo semanal. Los términos MA(1) y SMA(1) ayudan a corregir los errores de predicción, mejorando el ajuste del modelo.</p>
+</div>
+<div id="varianza-del-error-y-criterios-de-información" class="section level3 hasAnchor" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Varianza del error y Criterios de información<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#varianza-del-error-y-criterios-de-información" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Varianza del error
+sigma^2 = 19476:
+Esta es la varianza estimada de los errores del modelo en dolares.</p>
+<p>La raíz cuadrada de esta varianza es 139.56, este valor es una estimación de la desviación estándar de los errores.</p>
+<p>log likelihood = -2405.17:
+Este es el valor mide cómo el modelo se ajusta a los datos. Se usa para calcular los criterios de información (AIC, AICc, BIC).</p>
+<p>Criterios de información:
+AIC = 4818.34:
+Criterio de información de Akaike. Mide el ajuste del modelo penalizando la complejidad. Un valor más bajo indica un mejor modelo.</p>
+<p>AICc = 4818.44:
+Versión corregida del AIC para muestras pequeñas.</p>
+<p>BIC = 4834.08:
+Criterio de información bayesiano. Mide el ajuste del modelo penalizando más fuertemente la complejidad que el AIC.</p>
+<p>Estos valores no son directamente interpretables sin comparar con otros modelos SARIMA.</p>
+</div>
+<div id="métricas-de-error" class="section level3 hasAnchor" number="4.3.4">
+<h3><span class="header-section-number">4.3.4</span> Métricas de error<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>ME (Error Medio) = 4.685073:
+El error medio indica el sesgo promedio de las predicciones. Un valor de 4.68 sugiere en promedio el modelo tiende a predecir 4.68 unidades más de lo real. Esto es un sesgo pequeño comparando el rango de las ventas que varían entre 23.02 y 800.</p>
+<p>RMSE (Raíz del Error Cuadrático Medio) = 137.7336:
+El RMSE mide el error promedio de las ventas en las unidades (dolares) de la serie. Un valor de 137.73 indica que las predicciones del modelo se desvían en promedio en ~137.73 dolares de las ventas reales que es un valor alto pero explicado por la variabilidad residual (±300).</p>
+<p>MAE (Error Absoluto Medio) = 109.1637:
+El MAE mide el error promedio en valor absoluto. Un valor de 109.16 indica que, en promedio, las predicciones del modelo se desvían 109.16 unidades de las ventas reales.</p>
+<p>MPE (Error Porcentual Medio) = -33.30582%:
+El MPE mide el error porcentual promedio. El valor negativo indica que el modelo tiende a subestimar las ventas en promedio, lo que contradice el ME positivo. Esto puede pasar porque el MPE es sensible a errores relativos con valores pequeños (por ejemplo, días con ventas bajas como 23.02), donde un pequeño error absoluto puede traducirse en un gran error porcentual.</p>
+<p>MAPE (Error Porcentual Absoluto Medio) = 59.42362%:
+El MAPE mide el error porcentual absoluto promedio. Un valor de 59.42% indica que, en promedio, las predicciones del modelo se desvían en ~59.42% del valor real.</p>
+<p>Este valor es alto debido a la alta variabilidad de las ventas (de 23.02 a 800). Igual que con el MPE el MAPE tiende a ser grande cuando hay valores pequeños en la serie porque un error pequeño en términos absolutos resulta en un error porcentual grande.</p>
+<p>MASE (Error Absoluto Medio Escala) = 0.8025019:
+El MASE compara el MAE del modelo con el MAE de un modelo ingenuo. Un valor menor a 1 indica que el modelo SARIMA es mejor que el modelo ingenuo.</p>
+<p>ACF1 (Autocorrelación del primer rezago de los residuales) = -0.0478096:
+Este valor mide la autocorrelación de los residuales en el primer rezago. Un valor cercano a 0 indica que los residuales del modelo no tienen autocorrelación significativa. Significa que el modelo modela la mayor parte de la estructura temporal de la serie dejando residuales que se comportan como ruido blanco.</p>
+</div>
+</div>
+<div id="comparación-de-modelos" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Comparación de Modelos<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se comparamos la precisión de los modelos Holt-Winters (Aditivo y Multiplicativo), el modelo lineal, y el modelo SARIMA usando el error cuadrático medio (RMSE) y el error absoluto medio (MAE).</p>
+<pre><code>##                    RMSE      MAE
+## Additive       140.4213 111.8802
+## Multiplicative 143.8373 115.8820
+## Linear         134.9217 108.0084
+## SARIMA         137.7336 109.1637</code></pre>
+<p>El SARIMA tiene el mejor desempeño en términos de RMSE y MAE, lo que sugiere que es el mejor modelo hasta ahora. Esto puede deberse a que el SARIMA modela la estructura autorregresiva y la estacionalidad semanal, mientras que Holt-Winters se basa en suavizamiento y el modelo lineal no captura la estructura temporal.</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-parts.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

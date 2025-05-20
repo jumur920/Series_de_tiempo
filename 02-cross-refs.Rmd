@@ -56,7 +56,7 @@ ggplot(df_grafica_log, aes(x = Fecha, y = Valor, color = Tipo)) +
   geom_line(data = subset(df_grafica_log, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
   geom_ribbon(data = subset(df_grafica_log, Tipo == "Pronóstico"), 
               aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
-  labs(title = "Suavizamiento Exponencial Simple (log(y)): Últimos 7 días y pronóstico",
+  labs(title = "Suavizamiento Exponencial Simple (log(y)): Últimos 30 días y pronóstico",
        x = "Fecha", y = "Log(Valor total)",
        color = "Tipo") +
   theme_minimal()
@@ -112,7 +112,7 @@ ggplot(df_grafica, aes(x = Fecha, y = Valor, color = Tipo)) +
   geom_line(data = subset(df_grafica, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
   geom_ribbon(data = subset(df_grafica, Tipo == "Pronóstico"), 
               aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
-  labs(title = enc2utf8("Holt-Winters Aditivo: Últimos 7 días y pronóstico"),
+  labs(title = enc2utf8("Holt-Winters Aditivo: Últimos 30 días y pronóstico"),
        x = "Fecha", y = "Valor total",
        color = "Tipo") +
   theme_minimal()
@@ -168,7 +168,7 @@ ggplot(df_grafica, aes(x = Fecha, y = Valor, color = Tipo)) +
   geom_line(data = subset(df_grafica, Tipo == "Pronóstico"), size = 1, linetype = "dashed") +
   geom_ribbon(data = subset(df_grafica, Tipo == "Pronóstico"), 
               aes(ymin = Lower, ymax = Upper), alpha = 0.2, fill = "blue") +
-  labs(title = enc2utf8("Holt-Winters Multiplicativo: Últimos 7 días y pronóstico"),
+  labs(title = enc2utf8("Holt-Winters Multiplicativo: Últimos 30 días y pronóstico"),
        x = "Fecha", y = "Valor total",
        color = "Tipo") +
   theme_minimal()

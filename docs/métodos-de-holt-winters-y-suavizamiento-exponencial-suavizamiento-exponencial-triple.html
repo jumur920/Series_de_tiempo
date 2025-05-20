@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
 
 
-<meta name="date" content="2025-05-12" />
+<meta name="date" content="2025-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
   
   
 <link rel="prev" href="análisis-grafico-de-series-de-tiempo.html"/>
-
+<link rel="next" href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -136,6 +136,19 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.3</b> Holt-Winters Multiplicativo</a></li>
 <li class="chapter" data-level="3.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.4</b> Comparación de Modelos Holt-Winters</a></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><i class="fa fa-check"></i><b>4</b> Ajuste a un modelo lineal y estacionario (Modelo Arima)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#extensión-de-variables-temporales"><i class="fa fa-check"></i><b>4.1</b> Extensión de variables temporales</a></li>
+<li class="chapter" data-level="4.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-lineal"><i class="fa fa-check"></i><b>4.2</b> Modelo lineal</a></li>
+<li class="chapter" data-level="4.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-arima-estacional-sarima"><i class="fa fa-check"></i><b>4.3</b> Modelo ARIMA estacional (SARIMA)</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#estructura-del-modelo"><i class="fa fa-check"></i><b>4.3.1</b> Estructura del modelo</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#coeficientes-del-modelo"><i class="fa fa-check"></i><b>4.3.2</b> Coeficientes del modelo</a></li>
+<li class="chapter" data-level="4.3.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#varianza-del-error-y-criterios-de-información"><i class="fa fa-check"></i><b>4.3.3</b> Varianza del error y Criterios de información</a></li>
+<li class="chapter" data-level="4.3.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error"><i class="fa fa-check"></i><b>4.3.4</b> Métricas de error</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos"><i class="fa fa-check"></i><b>4.4</b> Comparación de Modelos</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -212,11 +225,6 @@ Penaliza más los errores grandes al elevarlos al cuadrado, lo que lo hace sensi
 <p>MAE (Mean Absolute Error): El MAE mide el promedio de los errores absolutos. Representa el error promedio de las predicciones de manera directa, sin dar mayor peso a errores grandes, lo que lo hace más robusto frente a valores atípicos.</p>
 <p>La diferencia entre los modelos es de 3.416 en RMSE (2.43%) y 4.0018 en MAE (3.58%). Esta diferencia no se considera significativa, ya que es relativamente pequeña y en valor se diferencia entre 3-4 dólares frente a ventas promedio de 400 y una variabilidad residual de ±300. Dado que la diferencia es insignificante, ambos modelos tienen un rendimiento similar, aunque el aditivo sigue siendo preferible por su mejor ajuste y consistencia teórica con la estacionalidad constante.</p>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div class="csl-entry">
-Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
-</div>
-</div>
 </div>
 </div>
             </section>
@@ -224,8 +232,8 @@ Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="htt
           </div>
         </div>
       </div>
-<a href="análisis-grafico-de-series-de-tiempo.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="análisis-grafico-de-series-de-tiempo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
