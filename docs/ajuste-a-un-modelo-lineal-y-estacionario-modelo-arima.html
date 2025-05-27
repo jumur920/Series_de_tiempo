@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
 
 
-<meta name="date" content="2025-05-19" />
+<meta name="date" content="2025-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
   
   
 <link rel="prev" href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"/>
-
+<link rel="next" href="algoritmo-facebooks-prophet.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -58,6 +58,15 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
 
 
 
@@ -148,6 +157,16 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error"><i class="fa fa-check"></i><b>4.3.4</b> Métricas de error</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos"><i class="fa fa-check"></i><b>4.4</b> Comparación de Modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html"><i class="fa fa-check"></i><b>5</b> Algoritmo Facebook´s Prophet</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#componentes"><i class="fa fa-check"></i><b>5.1</b> Componentes</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#modelamiento"><i class="fa fa-check"></i><b>5.1.1</b> Modelamiento</a></li>
+<li class="chapter" data-level="5.1.2" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#métricas"><i class="fa fa-check"></i><b>5.1.2</b> Métricas</a></li>
+<li class="chapter" data-level="5.1.3" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#regresores"><i class="fa fa-check"></i><b>5.1.3</b> Regresores</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#justificación-1"><i class="fa fa-check"></i><b>5.2</b> Justificación</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -309,11 +328,6 @@ Este valor mide la autocorrelación de los residuales en el primer rezago. Un va
 ## SARIMA         137.7336 109.1637</code></pre>
 <p>El SARIMA tiene el mejor desempeño en términos de RMSE y MAE, lo que sugiere que es el mejor modelo hasta ahora. Esto puede deberse a que el SARIMA modela la estructura autorregresiva y la estacionalidad semanal, mientras que Holt-Winters se basa en suavizamiento y el modelo lineal no captura la estructura temporal.</p>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div class="csl-entry">
-Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
-</div>
-</div>
 </div>
 </div>
             </section>
@@ -321,8 +335,8 @@ Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="htt
           </div>
         </div>
       </div>
-<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="algoritmo-facebooks-prophet.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

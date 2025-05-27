@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 5 Footnotes and citations | Pronóstico de Ventas de Café en Máquinas Expendedoras</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 5 Footnotes and citations | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Footnotes and citations | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
+
+
+<meta name="date" content="2025-05-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#justificación-de-la-elección"><i class="fa fa-check"></i><b>1.1</b> Justificación de la Elección</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#descripción-de-la-información-a-utilizar"><i class="fa fa-check"></i><b>1.2</b> Descripción de la Información a Utilizar</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#fuentes-y-permisos-de-uso"><i class="fa fa-check"></i><b>1.3</b> Fuentes y Permisos de Uso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>2</b> Análisis grafico de series de tiempo</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#metodología"><i class="fa fa-check"></i><b>2.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#datos"><i class="fa fa-check"></i><b>2.1.1</b> Datos</a></li>
+<li class="chapter" data-level="2.1.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#promedio-móvil"><i class="fa fa-check"></i><b>2.1.2</b> Promedio móvil</a></li>
+<li class="chapter" data-level="2.1.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#función-de-autocorrelación-acf"><i class="fa fa-check"></i><b>2.1.3</b> Función de Autocorrelación (ACF)</a></li>
+<li class="chapter" data-level="2.1.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#descomposición-stl"><i class="fa fa-check"></i><b>2.1.4</b> Descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#estacionariedad-diferenciación-y-transformaciones"><i class="fa fa-check"></i><b>2.2</b> Estacionariedad, Diferenciación y Transformaciones</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>2.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#diferenciación"><i class="fa fa-check"></i><b>2.2.2</b> Diferenciación</a></li>
+<li class="chapter" data-level="2.2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#transformaciones"><i class="fa fa-check"></i><b>2.2.3</b> Transformaciones</a></li>
+<li class="chapter" data-level="2.2.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#justificación"><i class="fa fa-check"></i><b>2.2.4</b> Justificación</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>2.3</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><i class="fa fa-check"></i><b>3</b> Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.1</b> Suavizamiento Exponencial Simple</a></li>
+<li class="chapter" data-level="3.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.2</b> Holt-Winters Aditivo</a></li>
+<li class="chapter" data-level="3.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.3</b> Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="3.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.4</b> Comparación de Modelos Holt-Winters</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><i class="fa fa-check"></i><b>4</b> Ajuste a un modelo lineal y estacionario (Modelo Arima)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#extensión-de-variables-temporales"><i class="fa fa-check"></i><b>4.1</b> Extensión de variables temporales</a></li>
+<li class="chapter" data-level="4.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-lineal"><i class="fa fa-check"></i><b>4.2</b> Modelo lineal</a></li>
+<li class="chapter" data-level="4.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-arima-estacional-sarima"><i class="fa fa-check"></i><b>4.3</b> Modelo ARIMA estacional (SARIMA)</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#estructura-del-modelo"><i class="fa fa-check"></i><b>4.3.1</b> Estructura del modelo</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#coeficientes-del-modelo"><i class="fa fa-check"></i><b>4.3.2</b> Coeficientes del modelo</a></li>
+<li class="chapter" data-level="4.3.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#varianza-del-error-y-criterios-de-información"><i class="fa fa-check"></i><b>4.3.3</b> Varianza del error y Criterios de información</a></li>
+<li class="chapter" data-level="4.3.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error"><i class="fa fa-check"></i><b>4.3.4</b> Métricas de error</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos"><i class="fa fa-check"></i><b>4.4</b> Comparación de Modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico de Ventas de Café en Máquinas Expendedoras</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="footnotes-and-citations" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capítulo 5</span> Footnotes and citations<a href="footnotes-and-citations.html#footnotes-and-citations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<pre><code>## tibble [385 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ ds: Date[1:385], format: &quot;2024-03-01&quot; &quot;2024-03-02&quot; ...
+##  $ y : num [1:385] 290 334 349 135 338 ...</code></pre>
+<pre><code>## [1] &quot;2024-03-01&quot; &quot;2025-03-23&quot;</code></pre>
+<pre><code>## [1] 378   2</code></pre>
+<pre><code>## [1] 7 2</code></pre>
+<pre><code>##             ds
+## 380 2025-03-18
+## 381 2025-03-19
+## 382 2025-03-20
+## 383 2025-03-21
+## 384 2025-03-22
+## 385 2025-03-23</code></pre>
+<pre><code>##             ds     yhat yhat_lower yhat_upper
+## 379 2025-03-17 379.3272   186.7462   559.9536
+## 380 2025-03-18 395.2764   210.4603   579.4678
+## 381 2025-03-19 382.8862   190.0071   566.9108
+## 382 2025-03-20 353.0883   172.3362   538.9244
+## 383 2025-03-21 400.6356   215.2172   587.3132
+## 384 2025-03-22 363.9774   164.9307   551.9503
+## 385 2025-03-23 334.8151   145.0669   517.8659</code></pre>
+<pre><code>## RMSE Prophet: 196.8354</code></pre>
+<pre><code>## MAE Prophet: 146.5227</code></pre>
+<div class="dygraphs html-widget html-fill-item" id="htmlwidget-05e07d10fa90b6b383e2" style="width:100%;height:1500px;"></div>
+<script type="application/json" data-for="htmlwidget-05e07d10fa90b6b383e2">{"x":{"attrs":{"title":"Predicciones de Prophet y Datos Reales","labels":["day","Predicciones","Datos Reales"],"retainDateWindow":false,"axes":{"x":{"pixelsPerLabel":60}},"colors":["blue","red"],"series":{"Predicciones":{"axis":"y"},"Datos Reales":{"axis":"y","drawPoints":true,"pointSize":3}},"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel","legend":"always","labelsDivWidth":200,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true},"scale":"daily","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2024-03-01T00:00:00.000Z","2024-03-02T00:00:00.000Z","2024-03-03T00:00:00.000Z","2024-03-04T00:00:00.000Z","2024-03-05T00:00:00.000Z","2024-03-06T00:00:00.000Z","2024-03-07T00:00:00.000Z","2024-03-08T00:00:00.000Z","2024-03-09T00:00:00.000Z","2024-03-10T00:00:00.000Z","2024-03-11T00:00:00.000Z","2024-03-12T00:00:00.000Z","2024-03-13T00:00:00.000Z","2024-03-14T00:00:00.000Z","2024-03-15T00:00:00.000Z","2024-03-16T00:00:00.000Z","2024-03-17T00:00:00.000Z","2024-03-18T00:00:00.000Z","2024-03-19T00:00:00.000Z","2024-03-20T00:00:00.000Z","2024-03-21T00:00:00.000Z","2024-03-22T00:00:00.000Z","2024-03-23T00:00:00.000Z","2024-03-24T00:00:00.000Z","2024-03-25T00:00:00.000Z","2024-03-26T00:00:00.000Z","2024-03-27T00:00:00.000Z","2024-03-28T00:00:00.000Z","2024-03-29T00:00:00.000Z","2024-03-30T00:00:00.000Z","2024-03-31T00:00:00.000Z","2024-04-01T00:00:00.000Z","2024-04-02T00:00:00.000Z","2024-04-03T00:00:00.000Z","2024-04-04T00:00:00.000Z","2024-04-05T00:00:00.000Z","2024-04-06T00:00:00.000Z","2024-04-07T00:00:00.000Z","2024-04-08T00:00:00.000Z","2024-04-09T00:00:00.000Z","2024-04-10T00:00:00.000Z","2024-04-11T00:00:00.000Z","2024-04-12T00:00:00.000Z","2024-04-13T00:00:00.000Z","2024-04-14T00:00:00.000Z","2024-04-15T00:00:00.000Z","2024-04-16T00:00:00.000Z","2024-04-17T00:00:00.000Z","2024-04-18T00:00:00.000Z","2024-04-19T00:00:00.000Z","2024-04-20T00:00:00.000Z","2024-04-21T00:00:00.000Z","2024-04-22T00:00:00.000Z","2024-04-23T00:00:00.000Z","2024-04-24T00:00:00.000Z","2024-04-25T00:00:00.000Z","2024-04-26T00:00:00.000Z","2024-04-27T00:00:00.000Z","2024-04-28T00:00:00.000Z","2024-04-29T00:00:00.000Z","2024-04-30T00:00:00.000Z","2024-05-01T00:00:00.000Z","2024-05-02T00:00:00.000Z","2024-05-03T00:00:00.000Z","2024-05-06T00:00:00.000Z","2024-05-07T00:00:00.000Z","2024-05-08T00:00:00.000Z","2024-05-09T00:00:00.000Z","2024-05-10T00:00:00.000Z","2024-05-11T00:00:00.000Z","2024-05-12T00:00:00.000Z","2024-05-13T00:00:00.000Z","2024-05-14T00:00:00.000Z","2024-05-15T00:00:00.000Z","2024-05-16T00:00:00.000Z","2024-05-17T00:00:00.000Z","2024-05-18T00:00:00.000Z","2024-05-19T00:00:00.000Z","2024-05-20T00:00:00.000Z","2024-05-21T00:00:00.000Z","2024-05-22T00:00:00.000Z","2024-05-23T00:00:00.000Z","2024-05-24T00:00:00.000Z","2024-05-25T00:00:00.000Z","2024-05-26T00:00:00.000Z","2024-05-27T00:00:00.000Z","2024-05-28T00:00:00.000Z","2024-05-29T00:00:00.000Z","2024-05-30T00:00:00.000Z","2024-05-31T00:00:00.000Z","2024-06-01T00:00:00.000Z","2024-06-02T00:00:00.000Z","2024-06-03T00:00:00.000Z","2024-06-04T00:00:00.000Z","2024-06-05T00:00:00.000Z","2024-06-06T00:00:00.000Z","2024-06-07T00:00:00.000Z","2024-06-08T00:00:00.000Z","2024-06-09T00:00:00.000Z","2024-06-10T00:00:00.000Z","2024-06-11T00:00:00.000Z","2024-06-12T00:00:00.000Z","2024-06-13T00:00:00.000Z","2024-06-14T00:00:00.000Z","2024-06-15T00:00:00.000Z","2024-06-16T00:00:00.000Z","2024-06-17T00:00:00.000Z","2024-06-18T00:00:00.000Z","2024-06-19T00:00:00.000Z","2024-06-20T00:00:00.000Z","2024-06-21T00:00:00.000Z","2024-06-22T00:00:00.000Z","2024-06-23T00:00:00.000Z","2024-06-24T00:00:00.000Z","2024-06-25T00:00:00.000Z","2024-06-26T00:00:00.000Z","2024-06-27T00:00:00.000Z","2024-06-28T00:00:00.000Z","2024-06-29T00:00:00.000Z","2024-06-30T00:00:00.000Z","2024-07-01T00:00:00.000Z","2024-07-02T00:00:00.000Z","2024-07-03T00:00:00.000Z","2024-07-04T00:00:00.000Z","2024-07-05T00:00:00.000Z","2024-07-06T00:00:00.000Z","2024-07-07T00:00:00.000Z","2024-07-08T00:00:00.000Z","2024-07-09T00:00:00.000Z","2024-07-10T00:00:00.000Z","2024-07-11T00:00:00.000Z","2024-07-12T00:00:00.000Z","2024-07-13T00:00:00.000Z","2024-07-14T00:00:00.000Z","2024-07-15T00:00:00.000Z","2024-07-16T00:00:00.000Z","2024-07-17T00:00:00.000Z","2024-07-18T00:00:00.000Z","2024-07-19T00:00:00.000Z","2024-07-20T00:00:00.000Z","2024-07-21T00:00:00.000Z","2024-07-22T00:00:00.000Z","2024-07-23T00:00:00.000Z","2024-07-24T00:00:00.000Z","2024-07-25T00:00:00.000Z","2024-07-26T00:00:00.000Z","2024-07-27T00:00:00.000Z","2024-07-28T00:00:00.000Z","2024-07-29T00:00:00.000Z","2024-07-30T00:00:00.000Z","2024-07-31T00:00:00.000Z","2024-08-01T00:00:00.000Z","2024-08-02T00:00:00.000Z","2024-08-03T00:00:00.000Z","2024-08-04T00:00:00.000Z","2024-08-05T00:00:00.000Z","2024-08-06T00:00:00.000Z","2024-08-07T00:00:00.000Z","2024-08-08T00:00:00.000Z","2024-08-09T00:00:00.000Z","2024-08-10T00:00:00.000Z","2024-08-11T00:00:00.000Z","2024-08-12T00:00:00.000Z","2024-08-13T00:00:00.000Z","2024-08-14T00:00:00.000Z","2024-08-15T00:00:00.000Z","2024-08-16T00:00:00.000Z","2024-08-17T00:00:00.000Z","2024-08-18T00:00:00.000Z","2024-08-19T00:00:00.000Z","2024-08-20T00:00:00.000Z","2024-08-21T00:00:00.000Z","2024-08-22T00:00:00.000Z","2024-08-23T00:00:00.000Z","2024-08-24T00:00:00.000Z","2024-08-25T00:00:00.000Z","2024-08-26T00:00:00.000Z","2024-08-27T00:00:00.000Z","2024-08-28T00:00:00.000Z","2024-08-29T00:00:00.000Z","2024-08-30T00:00:00.000Z","2024-08-31T00:00:00.000Z","2024-09-01T00:00:00.000Z","2024-09-02T00:00:00.000Z","2024-09-03T00:00:00.000Z","2024-09-04T00:00:00.000Z","2024-09-05T00:00:00.000Z","2024-09-06T00:00:00.000Z","2024-09-07T00:00:00.000Z","2024-09-08T00:00:00.000Z","2024-09-09T00:00:00.000Z","2024-09-10T00:00:00.000Z","2024-09-11T00:00:00.000Z","2024-09-12T00:00:00.000Z","2024-09-13T00:00:00.000Z","2024-09-14T00:00:00.000Z","2024-09-15T00:00:00.000Z","2024-09-16T00:00:00.000Z","2024-09-17T00:00:00.000Z","2024-09-18T00:00:00.000Z","2024-09-19T00:00:00.000Z","2024-09-20T00:00:00.000Z","2024-09-21T00:00:00.000Z","2024-09-22T00:00:00.000Z","2024-09-23T00:00:00.000Z","2024-09-24T00:00:00.000Z","2024-09-25T00:00:00.000Z","2024-09-26T00:00:00.000Z","2024-09-27T00:00:00.000Z","2024-09-28T00:00:00.000Z","2024-09-29T00:00:00.000Z","2024-09-30T00:00:00.000Z","2024-10-01T00:00:00.000Z","2024-10-02T00:00:00.000Z","2024-10-03T00:00:00.000Z","2024-10-04T00:00:00.000Z","2024-10-05T00:00:00.000Z","2024-10-06T00:00:00.000Z","2024-10-07T00:00:00.000Z","2024-10-08T00:00:00.000Z","2024-10-09T00:00:00.000Z","2024-10-10T00:00:00.000Z","2024-10-11T00:00:00.000Z","2024-10-12T00:00:00.000Z","2024-10-13T00:00:00.000Z","2024-10-14T00:00:00.000Z","2024-10-15T00:00:00.000Z","2024-10-16T00:00:00.000Z","2024-10-17T00:00:00.000Z","2024-10-18T00:00:00.000Z","2024-10-19T00:00:00.000Z","2024-10-20T00:00:00.000Z","2024-10-21T00:00:00.000Z","2024-10-22T00:00:00.000Z","2024-10-23T00:00:00.000Z","2024-10-24T00:00:00.000Z","2024-10-25T00:00:00.000Z","2024-10-26T00:00:00.000Z","2024-10-27T00:00:00.000Z","2024-10-28T00:00:00.000Z","2024-10-29T00:00:00.000Z","2024-10-30T00:00:00.000Z","2024-10-31T00:00:00.000Z","2024-11-01T00:00:00.000Z","2024-11-02T00:00:00.000Z","2024-11-03T00:00:00.000Z","2024-11-04T00:00:00.000Z","2024-11-05T00:00:00.000Z","2024-11-06T00:00:00.000Z","2024-11-07T00:00:00.000Z","2024-11-08T00:00:00.000Z","2024-11-09T00:00:00.000Z","2024-11-10T00:00:00.000Z","2024-11-11T00:00:00.000Z","2024-11-12T00:00:00.000Z","2024-11-13T00:00:00.000Z","2024-11-14T00:00:00.000Z","2024-11-15T00:00:00.000Z","2024-11-16T00:00:00.000Z","2024-11-17T00:00:00.000Z","2024-11-18T00:00:00.000Z","2024-11-19T00:00:00.000Z","2024-11-20T00:00:00.000Z","2024-11-21T00:00:00.000Z","2024-11-22T00:00:00.000Z","2024-11-23T00:00:00.000Z","2024-11-24T00:00:00.000Z","2024-11-25T00:00:00.000Z","2024-11-26T00:00:00.000Z","2024-11-27T00:00:00.000Z","2024-11-28T00:00:00.000Z","2024-11-29T00:00:00.000Z","2024-11-30T00:00:00.000Z","2024-12-01T00:00:00.000Z","2024-12-02T00:00:00.000Z","2024-12-03T00:00:00.000Z","2024-12-04T00:00:00.000Z","2024-12-05T00:00:00.000Z","2024-12-06T00:00:00.000Z","2024-12-07T00:00:00.000Z","2024-12-08T00:00:00.000Z","2024-12-09T00:00:00.000Z","2024-12-10T00:00:00.000Z","2024-12-11T00:00:00.000Z","2024-12-12T00:00:00.000Z","2024-12-13T00:00:00.000Z","2024-12-14T00:00:00.000Z","2024-12-15T00:00:00.000Z","2024-12-16T00:00:00.000Z","2024-12-17T00:00:00.000Z","2024-12-18T00:00:00.000Z","2024-12-19T00:00:00.000Z","2024-12-20T00:00:00.000Z","2024-12-21T00:00:00.000Z","2024-12-22T00:00:00.000Z","2024-12-23T00:00:00.000Z","2024-12-24T00:00:00.000Z","2024-12-25T00:00:00.000Z","2024-12-26T00:00:00.000Z","2024-12-27T00:00:00.000Z","2024-12-28T00:00:00.000Z","2024-12-29T00:00:00.000Z","2024-12-30T00:00:00.000Z","2024-12-31T00:00:00.000Z","2025-01-01T00:00:00.000Z","2025-01-02T00:00:00.000Z","2025-01-03T00:00:00.000Z","2025-01-04T00:00:00.000Z","2025-01-05T00:00:00.000Z","2025-01-06T00:00:00.000Z","2025-01-07T00:00:00.000Z","2025-01-08T00:00:00.000Z","2025-01-09T00:00:00.000Z","2025-01-10T00:00:00.000Z","2025-01-11T00:00:00.000Z","2025-01-12T00:00:00.000Z","2025-01-13T00:00:00.000Z","2025-01-14T00:00:00.000Z","2025-01-15T00:00:00.000Z","2025-01-16T00:00:00.000Z","2025-01-17T00:00:00.000Z","2025-01-18T00:00:00.000Z","2025-01-20T00:00:00.000Z","2025-01-21T00:00:00.000Z","2025-01-22T00:00:00.000Z","2025-01-23T00:00:00.000Z","2025-01-24T00:00:00.000Z","2025-01-25T00:00:00.000Z","2025-01-26T00:00:00.000Z","2025-01-27T00:00:00.000Z","2025-01-28T00:00:00.000Z","2025-01-29T00:00:00.000Z","2025-01-30T00:00:00.000Z","2025-01-31T00:00:00.000Z","2025-02-01T00:00:00.000Z","2025-02-02T00:00:00.000Z","2025-02-03T00:00:00.000Z","2025-02-04T00:00:00.000Z","2025-02-05T00:00:00.000Z","2025-02-06T00:00:00.000Z","2025-02-07T00:00:00.000Z","2025-02-08T00:00:00.000Z","2025-02-09T00:00:00.000Z","2025-02-10T00:00:00.000Z","2025-02-11T00:00:00.000Z","2025-02-12T00:00:00.000Z","2025-02-13T00:00:00.000Z","2025-02-14T00:00:00.000Z","2025-02-15T00:00:00.000Z","2025-02-16T00:00:00.000Z","2025-02-17T00:00:00.000Z","2025-02-18T00:00:00.000Z","2025-02-19T00:00:00.000Z","2025-02-20T00:00:00.000Z","2025-02-21T00:00:00.000Z","2025-02-22T00:00:00.000Z","2025-02-23T00:00:00.000Z","2025-02-24T00:00:00.000Z","2025-02-25T00:00:00.000Z","2025-02-26T00:00:00.000Z","2025-02-27T00:00:00.000Z","2025-02-28T00:00:00.000Z","2025-03-01T00:00:00.000Z","2025-03-02T00:00:00.000Z","2025-03-03T00:00:00.000Z","2025-03-04T00:00:00.000Z","2025-03-05T00:00:00.000Z","2025-03-06T00:00:00.000Z","2025-03-07T00:00:00.000Z","2025-03-08T00:00:00.000Z","2025-03-09T00:00:00.000Z","2025-03-10T00:00:00.000Z","2025-03-11T00:00:00.000Z","2025-03-12T00:00:00.000Z","2025-03-13T00:00:00.000Z","2025-03-14T00:00:00.000Z","2025-03-15T00:00:00.000Z","2025-03-16T00:00:00.000Z","2025-03-17T00:00:00.000Z","2025-03-18T00:00:00.000Z","2025-03-19T00:00:00.000Z","2025-03-20T00:00:00.000Z","2025-03-21T00:00:00.000Z","2025-03-22T00:00:00.000Z","2025-03-23T00:00:00.000Z"],[248.1981577168463,211.5363830073037,182.3705407482187,229.6699748153767,245.6156520396798,233.221878835491,203.4204904706251,250.9642434890451,214.3024687794896,185.1366265204902,232.4360605877122,248.3817378119138,235.98796460767,206.1865762402676,253.7303292561302,217.0685545439175,187.9027122824177,235.2021463467389,251.1478235685857,238.7540503617468,208.9526619943679,256.4964150101685,219.8346402981237,190.6687980364199,237.9682321009003,253.9139093211083,241.5201361126972,211.7187477438309,259.2625007580291,222.6007260443913,193.4348837812098,240.7343178440471,256.679995064285,244.2862218559749,214.4848334869884,262.028586501183,225.3668117875324,196.2009695185272,243.5004035756862,259.4460807899969,247.0523075758171,217.2509192010172,264.7946722093826,228.1328974898934,198.9670552208768,246.266489278053,262.212166492314,249.8183932781602,220.0170049034208,267.5607579151131,230.8989831989716,201.7331409334338,249.0325749940117,264.9782522117129,252.5844790009021,222.7830906295109,270.3268436413312,233.6650689251974,204.4992266596663,251.7986607200732,267.7443379378955,255.3505647279919,225.5491763576001,273.092929370282,254.5647464519246,270.5104236707389,258.1166504607803,228.3152620904119,275.8590151031485,239.1972403880612,210.0313981233616,257.3308321847976,273.2765094034904,260.8827361835659,231.0813478031929,278.6251008060394,241.9633260808891,212.7974838061995,260.0969178577193,276.0425950663906,263.6488218465657,233.8474334660615,281.3911864689045,244.7294117437413,215.563569469124,262.8630035287198,278.8086807459021,266.4149075343278,236.6135191621788,284.1572721732977,247.4954974563485,218.329655190034,265.6290892497173,281.5747664668499,269.1809932553125,239.3796048832132,286.9233578942608,250.2615831863909,221.0957409290551,268.3951749977022,284.3408522237771,271.9470790213003,242.1456906580789,289.689443678127,253.0276689701071,223.861826712852,271.1612607815748,287.1069380076076,274.7131648050992,244.9117764425538,292.4555294632036,255.7937547558141,226.62791249929,273.9273465687654,289.8730237953863,277.4792505935215,247.6778622310367,295.221615251715,258.5598405444555,229.3939982877322,276.6934323572114,292.6391095777425,280.2453363697717,250.4439480011617,297.9877010158236,261.3259263024652,232.1600840397415,279.4595181031984,295.4051953236615,283.0114221156131,253.2100337470419,300.753786761674,264.0920120483028,234.9261697910652,282.2256038596079,298.1712810857029,285.7775078830352,255.9761195198989,303.519872539928,266.8580978320668,237.6922555746253,284.9916896433273,300.9373668693467,288.5435936666699,258.7422053036095,306.285958328811,269.6241836262105,240.4583413739873,287.7577754478928,303.7034526790481,291.3096794817284,261.5082911237483,309.0520441489463,272.3902694462541,243.2244271941116,290.5238612680928,306.4695384992185,294.0757653018438,264.2743769422821,311.8181299658717,275.1563552615618,245.990513007803,293.2899470799615,309.2356243096675,296.8418511107139,267.0404627512391,314.5842157747311,277.9224410704497,248.756598816693,296.0560328888552,312.0017101207193,299.6079369238266,269.8065485663913,317.3503015921535,280.6885268899167,251.5226846383614,298.8221187127032,314.7677959444534,302.374022747518,272.5726343901325,320.1163874158065,283.4546127135364,254.2887704623772,301.5882045372055,317.5338817693511,305.1401085728058,275.3387202158426,322.8824732419705,286.2206985402295,257.0548562889414,304.3542903637751,320.2999675958451,307.9061943992799,278.104806042304,325.6485590715245,288.9867843727032,259.820942124408,307.120376202308,323.0660534373393,310.6722802438754,280.8708918897482,328.4146449189068,291.752870220131,262.5870279719214,309.8864620495785,325.8321392848151,313.4383660855771,283.6369777258022,331.1807307492811,294.5189560446472,265.3531137907265,312.6525478627628,328.5982250922415,316.2044518930404,286.4030635333152,333.9468165567229,297.2850418521963,268.1191995982824,315.4186336782046,331.3643109154037,318.9705377241241,289.1691493721159,336.712902403374,300.0511277067205,270.8852854605082,318.1847195404341,334.1303967776631,321.7366235863409,291.9352352343561,339.4789882655523,302.8172135597589,273.6513713045073,320.9508053754155,336.8964826034622,324.5027094030135,294.7013210420087,342.2450740641005,305.5832993583147,276.4174571029863,323.7168911738983,339.6625684019413,327.2687952014725,297.4674068544759,345.011159890737,308.3493851989329,279.183542957842,326.4829770428912,342.4286542849395,330.0348810984664,300.2334927515084,347.7772457876983,311.1154710959227,281.9496288547502,329.2490629396518,345.194740189559,332.8009670107854,302.9995786715353,350.5433317153952,313.8815570314028,284.7157147978671,332.0151488904343,347.9608261403118,335.5670529614833,305.7656646223091,353.3094176661712,316.6476429821864,287.4818013983425,334.7812361405866,350.7269140400736,338.3331415110756,308.5317538214551,356.0755075149404,319.4137334806072,290.2478918967604,337.5473266389289,353.4930045386212,341.0992320095682,311.2978443198714,358.84159810763,322.1798241673446,293.0139826776889,340.3134175139098,356.2590955076713,343.8653230727632,314.0639354772723,361.6076892649333,324.9459153246764,295.7800738350228,343.0795086713911,359.0251866650511,346.6324333588677,316.832064892158,364.3768378086426,327.7160829970833,298.5512606362841,345.8517146013414,361.7984117238,349.4056584175631,319.605289950914,367.1500628673104,330.4893080557179,301.3244856949025,348.627462464141,364.5766823906768,352.1864518885116,322.3886062259929,369.9359019464985,333.2776699391954,304.1153703822664,351.4183471514971,367.3675670779572,354.9773365759266,325.1794909132144,372.726786633848,336.068554626395,306.9062550695468,354.2092318388532,370.1584517652836,357.768221263209,327.970375600509,375.517671321081,338.8594393136735,357.0001165259742,372.9493364525181,360.5591059504695,330.7612602878302,378.3085560084305,341.6503240010742,312.4880244441075,359.7910012132583,375.7402211398445,363.3499906377409,333.5521449751512,381.0994406956802,344.4412086884313,315.2789091314716,362.5818859006862,378.5311058272044,366.1408753251669,336.3430296624722,383.8903253829715,347.2320933756311,318.0697938186684,365.3727705879704,381.3219905144849,368.9317600124382,339.1339143497671,386.6812100702628,350.0229780628306,320.860678506019,368.1636552753264,384.1128752017653,371.7226446996988,341.9247990371144,389.472094757571,352.8138627501879,323.6515631932994,370.9545399626824,386.9037598890458,374.5135293869811,344.7156837243095,392.2629794448622,355.6047474373875,326.4424478806633,373.7454246498035,389.6946445764057,377.3044140742416,347.5065684116306,395.0538641321534,358.3956321246659,329.2333325678601,376.5363093370875,392.4855292636402,380.0952987615021,350.2974530989517,397.8447488194446,361.1865168121454,332.0242172552241,379.3271940244435,395.2764139509665,382.8861834487735,353.0883377861732,400.6356335067942,363.9774014994238,334.8151019425881],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,401.18,441.84,730.84,490.32,744.0799999999999,334.56,235.62]]},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
+<pre><code>## [1] 388   6</code></pre>
+<pre><code>## Valores NA en dia_semana: 0</code></pre>
+<pre><code>## Valores NA en mes: 0</code></pre>
+<pre><code>## [1] &quot;ds&quot;             &quot;y&quot;              &quot;promedio_movil&quot; &quot;dia_semana&quot;    
+## [5] &quot;mes&quot;            &quot;pred_lineal&quot;</code></pre>
+<pre><code>## [1] 388   4</code></pre>
+<pre><code>##  [1] &quot;ds&quot;             &quot;y&quot;              &quot;dia_semana_Tue&quot; &quot;dia_semana_Wed&quot;
+##  [5] &quot;dia_semana_Thu&quot; &quot;dia_semana_Fri&quot; &quot;dia_semana_Sat&quot; &quot;dia_semana_Sun&quot;
+##  [9] &quot;mes_Feb&quot;        &quot;mes_Mar&quot;        &quot;mes_Apr&quot;        &quot;mes_May&quot;       
+## [13] &quot;mes_Jun&quot;        &quot;mes_Jul&quot;        &quot;mes_Aug&quot;        &quot;mes_Sep&quot;       
+## [17] &quot;mes_Oct&quot;        &quot;mes_Nov&quot;        &quot;mes_Dec&quot;</code></pre>
+<pre><code>## [1] 381  19</code></pre>
+<pre><code>## [1]  7 19</code></pre>
+<pre><code>##             ds dia_semana_Tue dia_semana_Wed dia_semana_Thu dia_semana_Fri 
+##              0              0              0              0              0 
+## dia_semana_Sat dia_semana_Sun        mes_Feb        mes_Mar        mes_Apr 
+##              0              0              0              0              0 
+##        mes_May        mes_Jun        mes_Jul        mes_Aug        mes_Sep 
+##              0              0              0              0              0 
+##        mes_Oct        mes_Nov        mes_Dec 
+##              0              0              0</code></pre>
+<pre><code>## RMSE Prophet con regresores: 176.8185</code></pre>
+<pre><code>## MAE Prophet con regresores: 134.5342</code></pre>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-citations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,15 +1,300 @@
-# Footnotes and citations 
+# Algoritmo Facebook´s Prophet 
 
-## Footnotes
+## Componentes
 
-Footnotes are put inside the square brackets after a caret `^[]`. Like this one ^[This is a footnote.]. 
+Prophet está basado en un modelo aditivo que descompone las series temporal en tres componentes principales:
 
-## Citations
+y(t)=g(t)+s(t)+h(t)+ϵt
 
-Reference items in your bibliography file(s) using `@key`.
+y(t): Variable dependiente a modelar.
 
-For example, we are using the **bookdown** package [@R-bookdown] (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and **knitr** [@xie2015] (this citation was added manually in an external file book.bib). 
-Note that the `.bib` files need to be listed in the index.Rmd with the YAML `bibliography` key.
+g(t): Es la tendencia que puede ser lineal o logística. Esta tendencia tiene puntos de cambio automáticos o definidos por el usuario.
+
+s(t): Estacionalidad, modelada mediante series de Fourier para capturar patrones periódicos (diarios, semanales, anuales).
+
+h(t): Efectos de días festivos o eventos especiales, que pueden ser especificados manualmente.
+
+ϵt: Error asumido como ruido blanco.
+
+Prophet es muy útil para series temporales con fuerte estacionalidad, datos históricos con patrones estacionales y efectos de eventos externos, como festivos, que impactan las ventas. También es robusto ante valores faltantes, ruido o outliers.
+
+### Modelamiento
+
+Se crea el modelo usando el algoritmo Prophet sin regresores.
+
+```{r prep, echo=FALSE}
+# Cargar las librerías necesarias
+library(prophet)
+library(dplyr)
+
+# Cargar las librerías necesarias
+library(prophet)
+library(dplyr)
+
+# Preparar el data.frame para Prophet
+prophet_df <- ventas_diarias %>%
+  select(ds = fecha, y = valor_total)
+
+# Verificar el formato de las columnas
+#str(prophet_df)
+
+# Asegurarse de que 'ds' sea de tipo Date
+#prophet_df$ds <- as.Date(prophet_df$ds)
+
+# Verificar el rango de fechas
+#range(prophet_df$ds)  # Debería mostrar 2024-03-01 a 2025-03-23
 
 
-The RStudio Visual Markdown Editor can also make it easier to insert citations: <https://rstudio.github.io/visual-markdown-editing/#/citations>
+```
+
+```{r div, echo=FALSE}
+# Dividir los datos
+train_df <- prophet_df %>% filter(ds <= as.Date("2025-03-16"))
+test_df <- prophet_df %>% filter(ds >= as.Date("2025-03-17") & ds <= as.Date("2025-03-23"))
+
+# Verificar las dimensiones
+#dim(train_df)  # Debería tener 381 días (1 de marzo de 2024 al 16 de marzo de 2025)
+#dim(test_df)   # Debería tener 7 días (17 al 23 de marzo de 2025)
+```
+
+
+```{r prophet, echo=FALSE}
+# Crear una instancia del modelo Prophet
+model_prophet <- prophet()
+
+# Ajustar el modelo al conjunto de entrenamiento
+model_prophet <- fit.prophet(model_prophet, train_df)
+
+# Crear un data.frame con fechas futuras (hasta el 7 de mayo de 2025)
+future_df <- make_future_dataframe(model_prophet, periods = 7, freq = "day")
+
+# Verificar las últimas fechas
+#tail(future_df)
+
+# Generar predicciones
+forecast <- predict(model_prophet, future_df)
+
+# Ver las últimas 7 predicciones (1 al 7 de mayo de 2025)
+tail(forecast[, c("ds", "yhat", "yhat_lower", "yhat_upper")], 7)
+```
+
+En este caso se modelaron los 7 días siguientes de la venta, los componentes del dataframe resultante son:
+
+ds: Fecha.
+
+yhat: Valor predicho.
+
+yhat_lower: Límite inferior al 80% de confianza.
+
+yhat_upper: Límite superior al 80% de confianza.
+
+```{r graf, echo=FALSE}
+
+# Cargar las librerías necesarias
+library(prophet)
+library(dygraphs)
+library(dplyr)
+library(xts)
+
+# Crear una serie temporal para las predicciones
+forecast_xts <- xts(forecast$yhat, order.by = forecast$ds)
+
+# Crear una serie temporal para los datos reales del conjunto de prueba
+test_xts <- xts(test_df$y, order.by = test_df$ds)
+
+# Combinar las series temporales
+combined_xts <- merge(forecast_xts, test_xts)
+colnames(combined_xts) <- c("Predicciones", "Datos Reales")
+
+# Graficar usando dygraphs
+dygraph(combined_xts, main = "Predicciones de Prophet y Datos Reales") %>%
+  dySeries("Predicciones", label = "Predicciones", color = "blue") %>%
+  dySeries("Datos Reales", label = "Datos Reales", color = "red", drawPoints = TRUE, pointSize = 3) %>%
+  dyRangeSelector() %>%
+  dyLegend(show = "always", width = 200)
+
+
+```
+
+En esta grafica se puede ver que el modelo solo fue capaz de modelar 3 de los 7 puntos cercanos a los valores reales, esto se puede explicar por la alta variabilidad residual (±300) observada en la descomposición STL.
+Además, puede que los componentes principales (tendencia, estacionalidad y días especiales) estén subestimando sus efectos en el tiempo.
+
+
+### Métricas
+
+Se calcula el RMSE y MAE del modelo:
+```{r test, echo=FALSE}
+# Unir las predicciones con los valores reales
+results <- test_df %>%
+  left_join(select(forecast, ds, yhat, yhat_lower, yhat_upper), by = "ds")
+
+# Calcular métricas de error
+library(Metrics)
+
+rmse_prophet <- rmse(results$y, results$yhat)
+mae_prophet <- mae(results$y, results$yhat)
+
+# Mostrar métricas
+cat("RMSE Prophet:", rmse_prophet, "\n")
+cat("MAE Prophet:", mae_prophet, "\n")
+
+
+```
+Estos resultados son los peores de todos los modelos que se han generado, el resultado es consistente con las conclusiones del analisis de la grafica anterior.
+
+### Regresores
+
+En Prophet, los regresores son variables externas que se pueden añadir al modelo para mejorar las predicciones. Estas variables se suman al modelo original para capturar efectos que no se explican completamente por la tendencia, la estacionalidad o los festivos. Estas variables se incorporan como términos lineales en la ecuación, quedando:
+y(t)=g(t)+s(t)+h(t)+β1x1(t)+β2x2(t)+⋯+βnxn(t)+ϵty(t) = g
+
+Donde:
+x1(t),x2(t),…,xn(t): Son los regresores en el tiempo.
+
+β1,β2,…,βn: Son los coeficientes que Prophet estima para cada regresor.
+
+En tu caso, los regresores que se usarán son dia_semana y mes para capturar mejor los efectos de los días de la semana y los meses del año, buscando un mejor resultado
+
+```{r arreglo_fechas, echo=FALSE}
+# Cargar las librerías necesarias
+library(prophet)
+library(dplyr)
+
+# Crear un data.frame con todas las fechas
+all_dates_df <- data.frame(ds = seq(as.Date("2024-03-01"), as.Date("2025-03-23"), by = "day"))
+
+# Unir con ventas_diarias para rellenar días faltantes
+ventas_diarias_complete <- all_dates_df %>%
+  left_join(ventas_diarias, by = c("ds" = "fecha"))
+
+# Generar dia_semana y mes para todas las fechas
+ventas_diarias_complete <- ventas_diarias_complete %>%
+  mutate(
+    dia_semana = weekdays(ds, abbreviate = FALSE),
+    dia_semana = factor(dia_semana, 
+                        levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+                        labels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")),
+    mes = months(ds, abbreviate = FALSE),
+    mes = factor(mes, 
+                 levels = c("January", "February", "March", "April", "May", "June", 
+                            "July", "August", "September", "October", "November", "December"),
+                 labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+  )
+
+# Renombrar la columna valor_total a y
+ventas_diarias_complete <- ventas_diarias_complete %>%
+  rename(y = valor_total)
+
+# Verificar las dimensiones
+#dim(ventas_diarias_complete)  # Debería ser [388, 4] (ds, y, dia_semana, mes)
+
+# Verificar si hay NA o NaN en dia_semana y mes
+#cat("Valores NA en dia_semana:", sum(is.na(ventas_diarias_complete$dia_semana)), "\n")
+#cat("Valores NA en mes:", sum(is.na(ventas_diarias_complete$mes)), "\n")
+
+# Mostrar nombres de columnas
+#colnames(ventas_diarias_complete)
+
+# Seleccionar solo las columnas necesarias
+ventas_diarias_complete <- ventas_diarias_complete %>%
+  select(ds, y, dia_semana, mes)
+
+# Verificar dimensiones
+#dim(ventas_diarias_complete)  # Debería ser [388, 4]
+
+# Cargar las librerías necesarias
+library(prophet)
+library(dplyr)
+library(fastDummies)
+
+# Convertir dia_semana y mes a variables dummy
+ventas_diarias_complete <- ventas_diarias_complete %>%
+  dummy_cols(select_columns = c("dia_semana", "mes"), remove_first_dummy = TRUE)
+
+# Eliminar las columnas originales dia_semana y mes
+ventas_diarias_complete <- ventas_diarias_complete %>%
+  select(-dia_semana, -mes)
+
+# Verificar las columnas
+#colnames(ventas_diarias_complete)
+
+```
+```{r predictores}
+
+# Dividir en entrenamiento y prueba
+train_df_with_regressors <- ventas_diarias_complete %>% filter(ds <= as.Date("2025-03-16"))
+test_df_with_regressors <- ventas_diarias_complete %>% filter(ds >= as.Date("2025-03-17") & ds <= as.Date("2025-03-23"))
+
+# Verificar las dimensiones
+#dim(train_df_with_regressors)  # Debería ser [381, 19]
+#dim(test_df_with_regressors)   # Debería ser [7, 19]
+
+# Crear una nueva instancia del modelo Prophet
+model_prophet_with_regressors <- prophet()
+
+# Agregar las columnas dummy como regresores
+dummy_cols <- colnames(ventas_diarias_complete)[3:19]  # Todas las columnas dummy
+for (col in dummy_cols) {
+  model_prophet_with_regressors <- add_regressor(model_prophet_with_regressors, col)
+}
+
+# Ajustar el modelo
+model_prophet_with_regressors <- fit.prophet(model_prophet_with_regressors, train_df_with_regressors)
+
+# Crear el data.frame futuro
+future_df_with_regressors <- make_future_dataframe(model_prophet_with_regressors, periods = 7, freq = "day")
+
+# Generar dia_semana y mes para las fechas futuras
+future_dates <- data.frame(ds = seq(min(future_df_with_regressors$ds), max(future_df_with_regressors$ds), by = "day"))
+future_dates <- future_dates %>%
+  mutate(
+    dia_semana = weekdays(ds, abbreviate = FALSE),
+    dia_semana = factor(dia_semana, 
+                        levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+                        labels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")),
+    mes = months(ds, abbreviate = FALSE),
+    mes = factor(mes, 
+                 levels = c("January", "February", "March", "April", "May", "June", 
+                            "July", "August", "September", "October", "November", "December"),
+                 labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+  )
+
+# Convertir dia_semana y mes a variables dummy en future_dates
+future_dates <- future_dates %>%
+  dummy_cols(select_columns = c("dia_semana", "mes"), remove_first_dummy = TRUE) %>%
+  select(-dia_semana, -mes)
+
+# Unir con future_df_with_regressors
+future_df_with_regressors <- future_df_with_regressors %>%
+  left_join(future_dates, by = "ds")
+
+# Verificar que no haya NA en las columnas dummy
+#sapply(future_df_with_regressors, function(x) sum(is.na(x)))
+
+# Generar predicciones
+forecast_with_regressors <- predict(model_prophet_with_regressors, future_df_with_regressors)
+
+# Evaluar métricas
+results_with_regressors <- test_df_with_regressors %>%
+  left_join(select(forecast_with_regressors, ds, yhat, yhat_lower, yhat_upper), by = "ds")
+
+library(Metrics)
+rmse_prophet_with_regressors <- rmse(results_with_regressors$y, results_with_regressors$yhat)
+mae_prophet_with_regressors <- mae(results_with_regressors$y, results_with_regressors$yhat)
+
+# Mostrar métricas
+cat("RMSE Prophet con regresores:", rmse_prophet_with_regressors, "\n")
+cat("MAE Prophet con regresores:", mae_prophet_with_regressors, "\n")
+```
+La inclusión de regresores mejoró el desempeño de Prophet, reduciendo el RMSE en un 10.2% y el MAE en un 8.2%. Esto confirma que los regresores ayudan a capturar efectos específicos haciendo que el modelo sea más preciso, pero todavía no alcanza el nivel de SARIMA o Holt-Winters.
+
+
+## Justificación
+
+La serie de tiempo que se esta estudiando es numérica y continua, lo cual es típico en problemas de regresión y puede ser tratada como un problema de regresión porque Prophet modela la variable dependiente y(t) = ventas como una función de tiempo, descompuesta en componentes aditivos de tendencia, estacionalidad y días especiales. Los componentes aditivos de Prophet permite interpretar los efectos de cada componente, similar a cómo se interpretan los coeficientes en una regresión.
+
+Este enfoque es conceptualmente similar a una regresión no lineal, donde el tiempo actúa como un regresor y los componentes de tendencia y estacionalidad son funciones del tiempo ajustadas al comportamiento de los datos. Además:
+
+Sin embargo, Prophet no modela explícitamente la dependencia temporal autorregresiva (como en SARIMA), sino que enfoca el problema como una regresión basada en componentes del tiempo. Esto lo hace más interpretable y fácil de usar, pero puede limitar su capacidad para capturar dinámicas autorregresivas complejas, como se vió en el ACF.
+

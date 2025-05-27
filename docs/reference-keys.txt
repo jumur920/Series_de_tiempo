@@ -33,3 +33,9 @@ coeficientes-del-modelo
 varianza-del-error-y-criterios-de-información
 métricas-de-error
 comparación-de-modelos
+algoritmo-facebooks-prophet
+componentes
+modelamiento
+métricas
+regresores
+justificación-1
