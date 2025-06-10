@@ -3,6 +3,10 @@ fig:rezagos
 fig:ses-log
 fig:hw-additive
 fig:hw-multiplicative
+fig:ELMAN-imagen
+fig:ELMAN-train
+fig:Jordan-imagen
+fig:jordan-train
 introducción
 justificación-de-la-elección
 descripción-de-la-información-a-utilizar
@@ -39,3 +43,7 @@ modelamiento
 métricas
 regresores
 justificación-1
+redes-neuronales-elman-y-jordan
+elman
+jordan
+resultados

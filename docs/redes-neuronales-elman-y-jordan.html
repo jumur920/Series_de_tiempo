@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 6 Redes neuronales ELMAN y Jordan | Pronóstico de Ventas de Café en Máquinas Expendedoras</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 6 Redes neuronales ELMAN y Jordan | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 6 Redes neuronales ELMAN y Jordan | Pronóstico de Ventas de Café en Máquinas Expendedoras" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+set in the _output.yml file.
+The HTML output format for this example is bookdown::gitbook,</p>" />
+  
+
+<meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
+
+
+<meta name="date" content="2025-06-09" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="algoritmo-facebooks-prophet.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#justificación-de-la-elección"><i class="fa fa-check"></i><b>1.1</b> Justificación de la Elección</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#descripción-de-la-información-a-utilizar"><i class="fa fa-check"></i><b>1.2</b> Descripción de la Información a Utilizar</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#fuentes-y-permisos-de-uso"><i class="fa fa-check"></i><b>1.3</b> Fuentes y Permisos de Uso</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html"><i class="fa fa-check"></i><b>2</b> Análisis grafico de series de tiempo</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#metodología"><i class="fa fa-check"></i><b>2.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#datos"><i class="fa fa-check"></i><b>2.1.1</b> Datos</a></li>
+<li class="chapter" data-level="2.1.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#promedio-móvil"><i class="fa fa-check"></i><b>2.1.2</b> Promedio móvil</a></li>
+<li class="chapter" data-level="2.1.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#función-de-autocorrelación-acf"><i class="fa fa-check"></i><b>2.1.3</b> Función de Autocorrelación (ACF)</a></li>
+<li class="chapter" data-level="2.1.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#descomposición-stl"><i class="fa fa-check"></i><b>2.1.4</b> Descomposición STL</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#estacionariedad-diferenciación-y-transformaciones"><i class="fa fa-check"></i><b>2.2</b> Estacionariedad, Diferenciación y Transformaciones</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>2.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#diferenciación"><i class="fa fa-check"></i><b>2.2.2</b> Diferenciación</a></li>
+<li class="chapter" data-level="2.2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#transformaciones"><i class="fa fa-check"></i><b>2.2.3</b> Transformaciones</a></li>
+<li class="chapter" data-level="2.2.4" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#justificación"><i class="fa fa-check"></i><b>2.2.4</b> Justificación</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="análisis-grafico-de-series-de-tiempo.html"><a href="análisis-grafico-de-series-de-tiempo.html#conclusiones"><i class="fa fa-check"></i><b>2.3</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><i class="fa fa-check"></i><b>3</b> Métodos de Holt-Winters y Suavizamiento Exponencial (Suavizamiento Exponencial Triple)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#suavizamiento-exponencial-simple"><i class="fa fa-check"></i><b>3.1</b> Suavizamiento Exponencial Simple</a></li>
+<li class="chapter" data-level="3.2" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-aditivo"><i class="fa fa-check"></i><b>3.2</b> Holt-Winters Aditivo</a></li>
+<li class="chapter" data-level="3.3" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#holt-winters-multiplicativo"><i class="fa fa-check"></i><b>3.3</b> Holt-Winters Multiplicativo</a></li>
+<li class="chapter" data-level="3.4" data-path="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html"><a href="métodos-de-holt-winters-y-suavizamiento-exponencial-suavizamiento-exponencial-triple.html#comparación-de-modelos-holt-winters"><i class="fa fa-check"></i><b>3.4</b> Comparación de Modelos Holt-Winters</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><i class="fa fa-check"></i><b>4</b> Ajuste a un modelo lineal y estacionario (Modelo Arima)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#extensión-de-variables-temporales"><i class="fa fa-check"></i><b>4.1</b> Extensión de variables temporales</a></li>
+<li class="chapter" data-level="4.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-lineal"><i class="fa fa-check"></i><b>4.2</b> Modelo lineal</a></li>
+<li class="chapter" data-level="4.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#modelo-arima-estacional-sarima"><i class="fa fa-check"></i><b>4.3</b> Modelo ARIMA estacional (SARIMA)</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#estructura-del-modelo"><i class="fa fa-check"></i><b>4.3.1</b> Estructura del modelo</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#coeficientes-del-modelo"><i class="fa fa-check"></i><b>4.3.2</b> Coeficientes del modelo</a></li>
+<li class="chapter" data-level="4.3.3" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#varianza-del-error-y-criterios-de-información"><i class="fa fa-check"></i><b>4.3.3</b> Varianza del error y Criterios de información</a></li>
+<li class="chapter" data-level="4.3.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#métricas-de-error"><i class="fa fa-check"></i><b>4.3.4</b> Métricas de error</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html"><a href="ajuste-a-un-modelo-lineal-y-estacionario-modelo-arima.html#comparación-de-modelos"><i class="fa fa-check"></i><b>4.4</b> Comparación de Modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html"><i class="fa fa-check"></i><b>5</b> Algoritmo Facebook´s Prophet</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#componentes"><i class="fa fa-check"></i><b>5.1</b> Componentes</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#modelamiento"><i class="fa fa-check"></i><b>5.1.1</b> Modelamiento</a></li>
+<li class="chapter" data-level="5.1.2" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#métricas"><i class="fa fa-check"></i><b>5.1.2</b> Métricas</a></li>
+<li class="chapter" data-level="5.1.3" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#regresores"><i class="fa fa-check"></i><b>5.1.3</b> Regresores</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="algoritmo-facebooks-prophet.html"><a href="algoritmo-facebooks-prophet.html#justificación-1"><i class="fa fa-check"></i><b>5.2</b> Justificación</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="redes-neuronales-elman-y-jordan.html"><a href="redes-neuronales-elman-y-jordan.html"><i class="fa fa-check"></i><b>6</b> Redes neuronales ELMAN y Jordan</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redes-neuronales-elman-y-jordan.html"><a href="redes-neuronales-elman-y-jordan.html#elman"><i class="fa fa-check"></i><b>6.1</b> ELMAN</a></li>
+<li class="chapter" data-level="6.2" data-path="redes-neuronales-elman-y-jordan.html"><a href="redes-neuronales-elman-y-jordan.html#jordan"><i class="fa fa-check"></i><b>6.2</b> Jordan</a></li>
+<li class="chapter" data-level="6.3" data-path="redes-neuronales-elman-y-jordan.html"><a href="redes-neuronales-elman-y-jordan.html#resultados"><i class="fa fa-check"></i><b>6.3</b> Resultados</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Pronóstico de Ventas de Café en Máquinas Expendedoras</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="redes-neuronales-elman-y-jordan" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Capítulo 6</span> Redes neuronales ELMAN y Jordan<a href="redes-neuronales-elman-y-jordan.html#redes-neuronales-elman-y-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo se van a aplicar los modelos de redes neuronales ELMAN y Jordan comparando sus resultados contra los modelos anteriores para buscar cual es más adecuado para predecir las ventas.</p>
+<p>Se inicia la preparación de los datos completando los días faltantes en la base de datos. Estos valores faltantes pueden ser días que no hubo venta o que no se subieron al repositorio, como no se tiene claro se van a agregar y se van a imputar sus valores usando interpolación lineal. Esto se hace porque estas redes neuronales son modelos recurrentes y dependen de una secuencia temporal continua para capturar dependencias temporales.</p>
+<p>Como las ventas presentan un comportamiento cíclico semanal se van a crear variables desfasadas con un valor de 7 para tener en cuenta esta cantidad de días en el modelo. Después se separan los conjuntos de entrenamiento y prueba y se normalizan debido a que las redes neuronales son sensibles a las escalas de los valores.</p>
+<div id="elman" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> ELMAN<a href="redes-neuronales-elman-y-jordan.html#elman" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Estructura: Es una red recurrente con una capa de entrada, una capa oculta, una capa de salida y una capa de contexto. La capa de contexto almacena las activaciones de las unidades ocultas del paso anterior y las retroalimenta como entrada adicional en el paso siguiente.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ELMAN-imagen"></span>
+<img src="images/Elman.png" alt="Estrutura red ELMAN" width="80%" />
+<p class="caption">
+Figure 6.1: Estrutura red ELMAN
+</p>
+</div>
+<p>El modelo se entrenó con los siguientes parámetros usando la librería keras:</p>
+<p>units = 10
+Este parámetro indica el número de neuronas de las capas ocultas y de contexto. Esta librería gestiona ambas capas automáticamente.</p>
+<p>epochs = 250
+Este parámetro indica la cantidad de veces que el modelo repasa el conjunto de entrenamiento. Cada vez que esto ocurre se calculan nuevos gradientes para ajustar los pesos de la red neuronal para reducir la perdida.</p>
+<p>batch_size = 2
+Indica el número de muestras procesadas antes de actualizar los pesos en cada iteración.</p>
+<p>validation_split = 0.2: Con este parámetro se reserva el 20% de los datos de entrenamiento para validar el modelo durante el entrenamiento para evitar el sobreajuste.</p>
+<pre><code>## Epoch 1/250
+## 150/150 - 1s - loss: 0.0823 - val_loss: 0.0641 - 1s/epoch - 10ms/step
+## Epoch 2/250
+## 150/150 - 0s - loss: 0.0368 - val_loss: 0.0488 - 327ms/epoch - 2ms/step
+## Epoch 3/250
+## 150/150 - 0s - loss: 0.0313 - val_loss: 0.0522 - 331ms/epoch - 2ms/step
+## Epoch 4/250
+## 150/150 - 0s - loss: 0.0300 - val_loss: 0.0438 - 307ms/epoch - 2ms/step
+## Epoch 5/250
+## 150/150 - 0s - loss: 0.0279 - val_loss: 0.0404 - 304ms/epoch - 2ms/step
+## Epoch 6/250
+## 150/150 - 0s - loss: 0.0276 - val_loss: 0.0436 - 308ms/epoch - 2ms/step
+## Epoch 7/250
+## 150/150 - 0s - loss: 0.0269 - val_loss: 0.0458 - 308ms/epoch - 2ms/step
+## Epoch 8/250
+## 150/150 - 0s - loss: 0.0267 - val_loss: 0.0409 - 305ms/epoch - 2ms/step
+## Epoch 9/250
+## 150/150 - 0s - loss: 0.0269 - val_loss: 0.0392 - 320ms/epoch - 2ms/step
+## Epoch 10/250
+## 150/150 - 0s - loss: 0.0270 - val_loss: 0.0370 - 302ms/epoch - 2ms/step
+## Epoch 11/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0416 - 318ms/epoch - 2ms/step
+## Epoch 12/250
+## 150/150 - 0s - loss: 0.0273 - val_loss: 0.0373 - 313ms/epoch - 2ms/step
+## Epoch 13/250
+## 150/150 - 0s - loss: 0.0267 - val_loss: 0.0407 - 298ms/epoch - 2ms/step
+## Epoch 14/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0413 - 313ms/epoch - 2ms/step
+## Epoch 15/250
+## 150/150 - 0s - loss: 0.0272 - val_loss: 0.0374 - 348ms/epoch - 2ms/step
+## Epoch 16/250
+## 150/150 - 0s - loss: 0.0269 - val_loss: 0.0375 - 311ms/epoch - 2ms/step
+## Epoch 17/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0376 - 332ms/epoch - 2ms/step
+## Epoch 18/250
+## 150/150 - 0s - loss: 0.0265 - val_loss: 0.0385 - 340ms/epoch - 2ms/step
+## Epoch 19/250
+## 150/150 - 0s - loss: 0.0270 - val_loss: 0.0394 - 427ms/epoch - 3ms/step
+## Epoch 20/250
+## 150/150 - 0s - loss: 0.0268 - val_loss: 0.0381 - 337ms/epoch - 2ms/step
+## Epoch 21/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0432 - 305ms/epoch - 2ms/step
+## Epoch 22/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0367 - 325ms/epoch - 2ms/step
+## Epoch 23/250
+## 150/150 - 0s - loss: 0.0270 - val_loss: 0.0380 - 339ms/epoch - 2ms/step
+## Epoch 24/250
+## 150/150 - 0s - loss: 0.0266 - val_loss: 0.0371 - 354ms/epoch - 2ms/step
+## Epoch 25/250
+## 150/150 - 0s - loss: 0.0266 - val_loss: 0.0387 - 331ms/epoch - 2ms/step
+## Epoch 26/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0366 - 308ms/epoch - 2ms/step
+## Epoch 27/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0362 - 310ms/epoch - 2ms/step
+## Epoch 28/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0368 - 315ms/epoch - 2ms/step
+## Epoch 29/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0367 - 312ms/epoch - 2ms/step
+## Epoch 30/250
+## 150/150 - 0s - loss: 0.0265 - val_loss: 0.0382 - 305ms/epoch - 2ms/step
+## Epoch 31/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0392 - 309ms/epoch - 2ms/step
+## Epoch 32/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0379 - 324ms/epoch - 2ms/step
+## Epoch 33/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0387 - 359ms/epoch - 2ms/step
+## Epoch 34/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0368 - 347ms/epoch - 2ms/step
+## Epoch 35/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0372 - 387ms/epoch - 3ms/step
+## Epoch 36/250
+## 150/150 - 0s - loss: 0.0268 - val_loss: 0.0371 - 404ms/epoch - 3ms/step
+## Epoch 37/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0399 - 372ms/epoch - 2ms/step
+## Epoch 38/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0390 - 333ms/epoch - 2ms/step
+## Epoch 39/250
+## 150/150 - 0s - loss: 0.0270 - val_loss: 0.0382 - 327ms/epoch - 2ms/step
+## Epoch 40/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0375 - 396ms/epoch - 3ms/step
+## Epoch 41/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0376 - 326ms/epoch - 2ms/step
+## Epoch 42/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0407 - 350ms/epoch - 2ms/step
+## Epoch 43/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0471 - 402ms/epoch - 3ms/step
+## Epoch 44/250
+## 150/150 - 0s - loss: 0.0266 - val_loss: 0.0393 - 346ms/epoch - 2ms/step
+## Epoch 45/250
+## 150/150 - 1s - loss: 0.0264 - val_loss: 0.0360 - 563ms/epoch - 4ms/step
+## Epoch 46/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0363 - 494ms/epoch - 3ms/step
+## Epoch 47/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0399 - 473ms/epoch - 3ms/step
+## Epoch 48/250
+## 150/150 - 0s - loss: 0.0264 - val_loss: 0.0392 - 500ms/epoch - 3ms/step
+## Epoch 49/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0375 - 420ms/epoch - 3ms/step
+## Epoch 50/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0375 - 379ms/epoch - 3ms/step
+## Epoch 51/250
+## 150/150 - 1s - loss: 0.0256 - val_loss: 0.0375 - 568ms/epoch - 4ms/step
+## Epoch 52/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0362 - 346ms/epoch - 2ms/step
+## Epoch 53/250
+## 150/150 - 0s - loss: 0.0265 - val_loss: 0.0370 - 361ms/epoch - 2ms/step
+## Epoch 54/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0374 - 340ms/epoch - 2ms/step
+## Epoch 55/250
+## 150/150 - 0s - loss: 0.0264 - val_loss: 0.0362 - 328ms/epoch - 2ms/step
+## Epoch 56/250
+## 150/150 - 0s - loss: 0.0265 - val_loss: 0.0369 - 314ms/epoch - 2ms/step
+## Epoch 57/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0377 - 317ms/epoch - 2ms/step
+## Epoch 58/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0378 - 305ms/epoch - 2ms/step
+## Epoch 59/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0380 - 296ms/epoch - 2ms/step
+## Epoch 60/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0383 - 302ms/epoch - 2ms/step
+## Epoch 61/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0407 - 295ms/epoch - 2ms/step
+## Epoch 62/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0363 - 413ms/epoch - 3ms/step
+## Epoch 63/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0357 - 379ms/epoch - 3ms/step
+## Epoch 64/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0363 - 292ms/epoch - 2ms/step
+## Epoch 65/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0358 - 306ms/epoch - 2ms/step
+## Epoch 66/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0388 - 297ms/epoch - 2ms/step
+## Epoch 67/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0369 - 287ms/epoch - 2ms/step
+## Epoch 68/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0393 - 307ms/epoch - 2ms/step
+## Epoch 69/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0385 - 287ms/epoch - 2ms/step
+## Epoch 70/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0364 - 297ms/epoch - 2ms/step
+## Epoch 71/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0417 - 287ms/epoch - 2ms/step
+## Epoch 72/250
+## 150/150 - 0s - loss: 0.0268 - val_loss: 0.0359 - 288ms/epoch - 2ms/step
+## Epoch 73/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0359 - 297ms/epoch - 2ms/step
+## Epoch 74/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0386 - 292ms/epoch - 2ms/step
+## Epoch 75/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0380 - 291ms/epoch - 2ms/step
+## Epoch 76/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0372 - 290ms/epoch - 2ms/step
+## Epoch 77/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0372 - 288ms/epoch - 2ms/step
+## Epoch 78/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0352 - 292ms/epoch - 2ms/step
+## Epoch 79/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0362 - 347ms/epoch - 2ms/step
+## Epoch 80/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0364 - 328ms/epoch - 2ms/step
+## Epoch 81/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0368 - 416ms/epoch - 3ms/step
+## Epoch 82/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0365 - 316ms/epoch - 2ms/step
+## Epoch 83/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0362 - 364ms/epoch - 2ms/step
+## Epoch 84/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0376 - 401ms/epoch - 3ms/step
+## Epoch 85/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0351 - 313ms/epoch - 2ms/step
+## Epoch 86/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0360 - 308ms/epoch - 2ms/step
+## Epoch 87/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0372 - 291ms/epoch - 2ms/step
+## Epoch 88/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0364 - 302ms/epoch - 2ms/step
+## Epoch 89/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0353 - 303ms/epoch - 2ms/step
+## Epoch 90/250
+## 150/150 - 0s - loss: 0.0264 - val_loss: 0.0389 - 320ms/epoch - 2ms/step
+## Epoch 91/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0352 - 365ms/epoch - 2ms/step
+## Epoch 92/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0369 - 325ms/epoch - 2ms/step
+## Epoch 93/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0380 - 322ms/epoch - 2ms/step
+## Epoch 94/250
+## 150/150 - 0s - loss: 0.0262 - val_loss: 0.0366 - 306ms/epoch - 2ms/step
+## Epoch 95/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0367 - 306ms/epoch - 2ms/step
+## Epoch 96/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0350 - 320ms/epoch - 2ms/step
+## Epoch 97/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0373 - 320ms/epoch - 2ms/step
+## Epoch 98/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0366 - 294ms/epoch - 2ms/step
+## Epoch 99/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0351 - 292ms/epoch - 2ms/step
+## Epoch 100/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0363 - 292ms/epoch - 2ms/step
+## Epoch 101/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0381 - 291ms/epoch - 2ms/step
+## Epoch 102/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0378 - 303ms/epoch - 2ms/step
+## Epoch 103/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0366 - 290ms/epoch - 2ms/step
+## Epoch 104/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0368 - 296ms/epoch - 2ms/step
+## Epoch 105/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0382 - 295ms/epoch - 2ms/step
+## Epoch 106/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0364 - 306ms/epoch - 2ms/step
+## Epoch 107/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0357 - 291ms/epoch - 2ms/step
+## Epoch 108/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0382 - 292ms/epoch - 2ms/step
+## Epoch 109/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0367 - 313ms/epoch - 2ms/step
+## Epoch 110/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0354 - 292ms/epoch - 2ms/step
+## Epoch 111/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0358 - 292ms/epoch - 2ms/step
+## Epoch 112/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0372 - 294ms/epoch - 2ms/step
+## Epoch 113/250
+## 150/150 - 0s - loss: 0.0265 - val_loss: 0.0359 - 295ms/epoch - 2ms/step
+## Epoch 114/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0390 - 294ms/epoch - 2ms/step
+## Epoch 115/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0378 - 289ms/epoch - 2ms/step
+## Epoch 116/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0378 - 294ms/epoch - 2ms/step
+## Epoch 117/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0357 - 294ms/epoch - 2ms/step
+## Epoch 118/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0363 - 290ms/epoch - 2ms/step
+## Epoch 119/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0375 - 293ms/epoch - 2ms/step
+## Epoch 120/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0350 - 304ms/epoch - 2ms/step
+## Epoch 121/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0348 - 300ms/epoch - 2ms/step
+## Epoch 122/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0369 - 298ms/epoch - 2ms/step
+## Epoch 123/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0352 - 293ms/epoch - 2ms/step
+## Epoch 124/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0368 - 294ms/epoch - 2ms/step
+## Epoch 125/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0360 - 289ms/epoch - 2ms/step
+## Epoch 126/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0352 - 290ms/epoch - 2ms/step
+## Epoch 127/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0366 - 295ms/epoch - 2ms/step
+## Epoch 128/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0383 - 291ms/epoch - 2ms/step
+## Epoch 129/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0367 - 295ms/epoch - 2ms/step
+## Epoch 130/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0354 - 289ms/epoch - 2ms/step
+## Epoch 131/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0349 - 292ms/epoch - 2ms/step
+## Epoch 132/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0356 - 297ms/epoch - 2ms/step
+## Epoch 133/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0352 - 301ms/epoch - 2ms/step
+## Epoch 134/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0359 - 289ms/epoch - 2ms/step
+## Epoch 135/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0363 - 296ms/epoch - 2ms/step
+## Epoch 136/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0356 - 293ms/epoch - 2ms/step
+## Epoch 137/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0364 - 289ms/epoch - 2ms/step
+## Epoch 138/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0370 - 293ms/epoch - 2ms/step
+## Epoch 139/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0377 - 290ms/epoch - 2ms/step
+## Epoch 140/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0374 - 333ms/epoch - 2ms/step
+## Epoch 141/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0364 - 305ms/epoch - 2ms/step
+## Epoch 142/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0396 - 315ms/epoch - 2ms/step
+## Epoch 143/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0360 - 297ms/epoch - 2ms/step
+## Epoch 144/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0386 - 315ms/epoch - 2ms/step
+## Epoch 145/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0353 - 303ms/epoch - 2ms/step
+## Epoch 146/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0364 - 303ms/epoch - 2ms/step
+## Epoch 147/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0366 - 299ms/epoch - 2ms/step
+## Epoch 148/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0345 - 294ms/epoch - 2ms/step
+## Epoch 149/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0358 - 319ms/epoch - 2ms/step
+## Epoch 150/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0344 - 339ms/epoch - 2ms/step
+## Epoch 151/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0361 - 385ms/epoch - 3ms/step
+## Epoch 152/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0370 - 410ms/epoch - 3ms/step
+## Epoch 153/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0392 - 360ms/epoch - 2ms/step
+## Epoch 154/250
+## 150/150 - 0s - loss: 0.0263 - val_loss: 0.0360 - 328ms/epoch - 2ms/step
+## Epoch 155/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0362 - 308ms/epoch - 2ms/step
+## Epoch 156/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0351 - 314ms/epoch - 2ms/step
+## Epoch 157/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0372 - 284ms/epoch - 2ms/step
+## Epoch 158/250
+## 150/150 - 0s - loss: 0.0261 - val_loss: 0.0358 - 289ms/epoch - 2ms/step
+## Epoch 159/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0376 - 342ms/epoch - 2ms/step
+## Epoch 160/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0375 - 439ms/epoch - 3ms/step
+## Epoch 161/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0376 - 301ms/epoch - 2ms/step
+## Epoch 162/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0362 - 303ms/epoch - 2ms/step
+## Epoch 163/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0355 - 289ms/epoch - 2ms/step
+## Epoch 164/250
+## 150/150 - 0s - loss: 0.0251 - val_loss: 0.0382 - 296ms/epoch - 2ms/step
+## Epoch 165/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0348 - 298ms/epoch - 2ms/step
+## Epoch 166/250
+## 150/150 - 0s - loss: 0.0259 - val_loss: 0.0354 - 294ms/epoch - 2ms/step
+## Epoch 167/250
+## 150/150 - 0s - loss: 0.0260 - val_loss: 0.0353 - 341ms/epoch - 2ms/step
+## Epoch 168/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0344 - 316ms/epoch - 2ms/step
+## Epoch 169/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0376 - 295ms/epoch - 2ms/step
+## Epoch 170/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0363 - 315ms/epoch - 2ms/step
+## Epoch 171/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0353 - 317ms/epoch - 2ms/step
+## Epoch 172/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0345 - 306ms/epoch - 2ms/step
+## Epoch 173/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0346 - 317ms/epoch - 2ms/step
+## Epoch 174/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0372 - 321ms/epoch - 2ms/step
+## Epoch 175/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0343 - 293ms/epoch - 2ms/step
+## Epoch 176/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0362 - 311ms/epoch - 2ms/step
+## Epoch 177/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0360 - 318ms/epoch - 2ms/step
+## Epoch 178/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0371 - 316ms/epoch - 2ms/step
+## Epoch 179/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0346 - 297ms/epoch - 2ms/step
+## Epoch 180/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0363 - 324ms/epoch - 2ms/step
+## Epoch 181/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0349 - 298ms/epoch - 2ms/step
+## Epoch 182/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0384 - 289ms/epoch - 2ms/step
+## Epoch 183/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0356 - 292ms/epoch - 2ms/step
+## Epoch 184/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0347 - 319ms/epoch - 2ms/step
+## Epoch 185/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0358 - 302ms/epoch - 2ms/step
+## Epoch 186/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0368 - 312ms/epoch - 2ms/step
+## Epoch 187/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0353 - 363ms/epoch - 2ms/step
+## Epoch 188/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0367 - 302ms/epoch - 2ms/step
+## Epoch 189/250
+## 150/150 - 0s - loss: 0.0250 - val_loss: 0.0381 - 310ms/epoch - 2ms/step
+## Epoch 190/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0360 - 319ms/epoch - 2ms/step
+## Epoch 191/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0364 - 306ms/epoch - 2ms/step
+## Epoch 192/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0349 - 312ms/epoch - 2ms/step
+## Epoch 193/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0381 - 309ms/epoch - 2ms/step
+## Epoch 194/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0369 - 370ms/epoch - 2ms/step
+## Epoch 195/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0380 - 316ms/epoch - 2ms/step
+## Epoch 196/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0377 - 322ms/epoch - 2ms/step
+## Epoch 197/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0349 - 306ms/epoch - 2ms/step
+## Epoch 198/250
+## 150/150 - 0s - loss: 0.0251 - val_loss: 0.0388 - 285ms/epoch - 2ms/step
+## Epoch 199/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0354 - 303ms/epoch - 2ms/step
+## Epoch 200/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0356 - 295ms/epoch - 2ms/step
+## Epoch 201/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0360 - 327ms/epoch - 2ms/step
+## Epoch 202/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0362 - 307ms/epoch - 2ms/step
+## Epoch 203/250
+## 150/150 - 0s - loss: 0.0251 - val_loss: 0.0371 - 299ms/epoch - 2ms/step
+## Epoch 204/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0356 - 294ms/epoch - 2ms/step
+## Epoch 205/250
+## 150/150 - 0s - loss: 0.0258 - val_loss: 0.0363 - 293ms/epoch - 2ms/step
+## Epoch 206/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0355 - 294ms/epoch - 2ms/step
+## Epoch 207/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0348 - 296ms/epoch - 2ms/step
+## Epoch 208/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0360 - 290ms/epoch - 2ms/step
+## Epoch 209/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0368 - 295ms/epoch - 2ms/step
+## Epoch 210/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0354 - 312ms/epoch - 2ms/step
+## Epoch 211/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0359 - 304ms/epoch - 2ms/step
+## Epoch 212/250
+## 150/150 - 0s - loss: 0.0248 - val_loss: 0.0359 - 295ms/epoch - 2ms/step
+## Epoch 213/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0337 - 295ms/epoch - 2ms/step
+## Epoch 214/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0340 - 293ms/epoch - 2ms/step
+## Epoch 215/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0338 - 299ms/epoch - 2ms/step
+## Epoch 216/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0351 - 289ms/epoch - 2ms/step
+## Epoch 217/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0348 - 302ms/epoch - 2ms/step
+## Epoch 218/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0346 - 297ms/epoch - 2ms/step
+## Epoch 219/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0357 - 389ms/epoch - 3ms/step
+## Epoch 220/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0338 - 295ms/epoch - 2ms/step
+## Epoch 221/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0360 - 296ms/epoch - 2ms/step
+## Epoch 222/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0353 - 465ms/epoch - 3ms/step
+## Epoch 223/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0372 - 313ms/epoch - 2ms/step
+## Epoch 224/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0357 - 291ms/epoch - 2ms/step
+## Epoch 225/250
+## 150/150 - 0s - loss: 0.0251 - val_loss: 0.0349 - 290ms/epoch - 2ms/step
+## Epoch 226/250
+## 150/150 - 0s - loss: 0.0255 - val_loss: 0.0333 - 304ms/epoch - 2ms/step
+## Epoch 227/250
+## 150/150 - 0s - loss: 0.0249 - val_loss: 0.0349 - 294ms/epoch - 2ms/step
+## Epoch 228/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0339 - 330ms/epoch - 2ms/step
+## Epoch 229/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0345 - 303ms/epoch - 2ms/step
+## Epoch 230/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0363 - 288ms/epoch - 2ms/step
+## Epoch 231/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0354 - 288ms/epoch - 2ms/step
+## Epoch 232/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0351 - 286ms/epoch - 2ms/step
+## Epoch 233/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0355 - 289ms/epoch - 2ms/step
+## Epoch 234/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0340 - 286ms/epoch - 2ms/step
+## Epoch 235/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0367 - 287ms/epoch - 2ms/step
+## Epoch 236/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0360 - 304ms/epoch - 2ms/step
+## Epoch 237/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0364 - 290ms/epoch - 2ms/step
+## Epoch 238/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0356 - 285ms/epoch - 2ms/step
+## Epoch 239/250
+## 150/150 - 0s - loss: 0.0256 - val_loss: 0.0375 - 290ms/epoch - 2ms/step
+## Epoch 240/250
+## 150/150 - 0s - loss: 0.0253 - val_loss: 0.0380 - 291ms/epoch - 2ms/step
+## Epoch 241/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0379 - 288ms/epoch - 2ms/step
+## Epoch 242/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0346 - 308ms/epoch - 2ms/step
+## Epoch 243/250
+## 150/150 - 0s - loss: 0.0254 - val_loss: 0.0368 - 390ms/epoch - 3ms/step
+## Epoch 244/250
+## 150/150 - 0s - loss: 0.0250 - val_loss: 0.0370 - 300ms/epoch - 2ms/step
+## Epoch 245/250
+## 150/150 - 0s - loss: 0.0249 - val_loss: 0.0367 - 286ms/epoch - 2ms/step
+## Epoch 246/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0398 - 308ms/epoch - 2ms/step
+## Epoch 247/250
+## 150/150 - 0s - loss: 0.0257 - val_loss: 0.0352 - 310ms/epoch - 2ms/step
+## Epoch 248/250
+## 150/150 - 0s - loss: 0.0245 - val_loss: 0.0380 - 313ms/epoch - 2ms/step
+## Epoch 249/250
+## 150/150 - 0s - loss: 0.0252 - val_loss: 0.0361 - 340ms/epoch - 2ms/step
+## Epoch 250/250
+## 150/150 - 0s - loss: 0.0250 - val_loss: 0.0352 - 392ms/epoch - 3ms/step</code></pre>
+<p>Después de entrenar la red neuronal estos fueron los resultados.</p>
+<pre><code>## 1/1 - 0s - 165ms/epoch - 165ms/step</code></pre>
+<pre><code>## RMSE Keras ELMAN: 293.8443</code></pre>
+<pre><code>## MAE Keras ELMAN: 247.5053</code></pre>
+<p><img src="_main_files/figure-html/ELMAN_R-1.png" width="100%" style="display: block; margin: auto;" />
+En la grafica de real vs predicciones se ve que el modelo se mantiene en el promedio de las ventas reales, con esto se puede concluir que el modelo no es capaz de predecir los comportamientos atipicos de ventas, esto es un resultado parecido al modelo prophet.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ELMAN-train"></span>
+<img src="images/Elman_train.png" alt="Estrutura red ELMAN" width="80%" />
+<p class="caption">
+Figure 6.2: Estrutura red ELMAN
+</p>
+</div>
+<p>Esta gráfica representa la evolución de la función de pérdida a lo largo de las 200 épocas del modelo. El eje x muestra el número de épocas y el eje y muestra el valor de la pérdida.</p>
+<p>Loss (Línea azul) representa el valor de la función de pérdida (mse) el conjunto de entrenamiento después de cada época. Mide cuán lejos están las predicciones del modelo de los valores reales en los datos con los que se entrena.</p>
+<p>Val_loss (Línea verde) representa la misma funcion de perdida de loss pero contra el conjunto de validación.
+Esta linea indica si el modelo está aprendiendo patrones útiles o sobreajustando. Si val_loss aumenta mientras loss disminuye, es una señal de sobreajuste.</p>
+<p>Ambas líneas disminuyen la perdida rápidamente antes de las 50 epocas y luego se estabilizan. Esto indica que el modelo encuentra una configuración de pesos que minimiza la pérdida. Esto indica que el modelo generaliza bien, ya que la funcion de pérdida en validación no diverge significativamente del valor en entrenamiento.</p>
+<p>Después de 100 épocas ambas líneas se mantienen relativamente estables con una tendencia muy poco significativa hacia abajo, con algunas fluctuaciones.Esto implica que entrenar más allá de 200 épocas probablemente no mejorará mucho el rendimiento, ya que el modelo ha alcanzado un punto de mínima pérdida.</p>
+</div>
+<div id="jordan" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Jordan<a href="redes-neuronales-elman-y-jordan.html#jordan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Estructura: Es similar a la ELMAN, pero la capa de contexto almacena las salidas del paso anterior y(t-1) en lugar de las activaciones ocultas como retroalimentación junto a las entradas actuales x(t) para generar las activaciones ocultas h(t) y dar el pronostico del valor actual y(t).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:Jordan-imagen"></span>
+<img src="images/Jordan.jpg" alt="Estrutura red ELMAN" width="80%" />
+<p class="caption">
+Figure 6.3: Estrutura red ELMAN
+</p>
+</div>
+<p>El modelo se entrenó nuevamente usando la librería keras con los siguientes parámetros:</p>
+<p>units = 30.</p>
+<p>epochs = 300.</p>
+<p>batch_size = 40.</p>
+<p>validation_split = 0.2.</p>
+<pre><code>## Epoch 1/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 4s - loss: 0.1674
+## 6/6 [==============================] - 1s 41ms/step - loss: 0.1033 - val_loss: 0.0633
+## Epoch 2/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0455
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0479 - val_loss: 0.0599
+## Epoch 3/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0434
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0484 - val_loss: 0.0522
+## Epoch 4/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0272
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0363 - val_loss: 0.0613
+## Epoch 5/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0356
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0375 - val_loss: 0.0615
+## Epoch 6/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0359
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0349 - val_loss: 0.0523
+## Epoch 7/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0373
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0324 - val_loss: 0.0486
+## Epoch 8/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0348
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0323 - val_loss: 0.0479
+## Epoch 9/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0343
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0311 - val_loss: 0.0495
+## Epoch 10/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0291
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0303 - val_loss: 0.0482
+## Epoch 11/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0435
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0297 - val_loss: 0.0465
+## Epoch 12/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0262
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0291 - val_loss: 0.0461
+## Epoch 13/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0299
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0286 - val_loss: 0.0456
+## Epoch 14/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0338
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0282 - val_loss: 0.0449
+## Epoch 15/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0176
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0278 - val_loss: 0.0442
+## Epoch 16/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0333
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0275 - val_loss: 0.0434
+## Epoch 17/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0264
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0272 - val_loss: 0.0439
+## Epoch 18/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0194
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0270 - val_loss: 0.0438
+## Epoch 19/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0181
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0267 - val_loss: 0.0426
+## Epoch 20/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0278
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0265 - val_loss: 0.0426
+## Epoch 21/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0332
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0266 - val_loss: 0.0425
+## Epoch 22/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0260
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0262 - val_loss: 0.0438
+## Epoch 23/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0415
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0262 - val_loss: 0.0427
+## Epoch 24/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0269
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0261 - val_loss: 0.0420
+## Epoch 25/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0259 - val_loss: 0.0424
+## Epoch 26/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0255
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0257 - val_loss: 0.0426
+## Epoch 27/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0333
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0257 - val_loss: 0.0423
+## Epoch 28/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0293
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0256 - val_loss: 0.0415
+## Epoch 29/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0405
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0421
+## Epoch 30/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0269
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0420
+## Epoch 31/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0308
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0422
+## Epoch 32/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0326
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0256 - val_loss: 0.0419
+## Epoch 33/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0273
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0411
+## Epoch 34/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0286
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0419
+## Epoch 35/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0239
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0424
+## Epoch 36/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0189
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0412
+## Epoch 37/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0301
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0423
+## Epoch 38/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0422
+## Epoch 39/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0315
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0257 - val_loss: 0.0411
+## Epoch 40/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0247
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0423
+## Epoch 41/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0249
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0417
+## Epoch 42/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0250
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0414
+## Epoch 43/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0233
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0425
+## Epoch 44/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0268
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0258 - val_loss: 0.0413
+## Epoch 45/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0253
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0412
+## Epoch 46/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0197
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0418
+## Epoch 47/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0281
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0422
+## Epoch 48/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0252
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0415
+## Epoch 49/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0192
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0423
+## Epoch 50/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0308
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0415
+## Epoch 51/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0225
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0417
+## Epoch 52/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0316
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0411
+## Epoch 53/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0312
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0420
+## Epoch 54/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0311
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0415
+## Epoch 55/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0411
+## Epoch 56/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0285
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0421
+## Epoch 57/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0230
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0417
+## Epoch 58/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0414
+## Epoch 59/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0298
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0416
+## Epoch 60/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0232
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0415
+## Epoch 61/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0336
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0419
+## Epoch 62/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0263
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0409
+## Epoch 63/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0248
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0413
+## Epoch 64/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0415
+## Epoch 65/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0277
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0424
+## Epoch 66/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0287
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0413
+## Epoch 67/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0352
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0412
+## Epoch 68/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0251
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0420
+## Epoch 69/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0284
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0252 - val_loss: 0.0420
+## Epoch 70/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0242
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0250 - val_loss: 0.0409
+## Epoch 71/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0245
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0412
+## Epoch 72/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0233
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0262 - val_loss: 0.0433
+## Epoch 73/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0268
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0408
+## Epoch 74/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0286
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0417
+## Epoch 75/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0423
+## Epoch 76/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0414
+## Epoch 77/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0289
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0417
+## Epoch 78/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0272
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0256 - val_loss: 0.0434
+## Epoch 79/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0219
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0406
+## Epoch 80/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0215
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0409
+## Epoch 81/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0249
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0418
+## Epoch 82/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0227
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0410
+## Epoch 83/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0173
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0422
+## Epoch 84/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0225
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0411
+## Epoch 85/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0221
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0250 - val_loss: 0.0420
+## Epoch 86/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0275
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0417
+## Epoch 87/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0231
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0260 - val_loss: 0.0407
+## Epoch 88/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0187
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0434
+## Epoch 89/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0276
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0409
+## Epoch 90/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0222
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0404
+## Epoch 91/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0293
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0420
+## Epoch 92/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0248
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0250 - val_loss: 0.0412
+## Epoch 93/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0413
+## Epoch 94/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0233
+## 6/6 [==============================] - 0s 13ms/step - loss: 0.0253 - val_loss: 0.0425
+## Epoch 95/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0174
+## 6/6 [==============================] - 0s 11ms/step - loss: 0.0250 - val_loss: 0.0409
+## Epoch 96/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0237
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0411
+## Epoch 97/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0293
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0416
+## Epoch 98/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0323
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0406
+## Epoch 99/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0224
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0253 - val_loss: 0.0416
+## Epoch 100/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0215
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0413
+## Epoch 101/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0224
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0414
+## Epoch 102/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0229
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0421
+## Epoch 103/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0411
+## Epoch 104/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0215
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0411
+## Epoch 105/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0251 - val_loss: 0.0418
+## Epoch 106/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0263
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 107/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0281
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0411
+## Epoch 108/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0254
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0418
+## Epoch 109/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0266
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0416
+## Epoch 110/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0278
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0411
+## Epoch 111/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0262
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0407
+## Epoch 112/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0268
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0421
+## Epoch 113/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0339
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0412
+## Epoch 114/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0299
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0414
+## Epoch 115/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0278
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0411
+## Epoch 116/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0265
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0415
+## Epoch 117/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0302
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0417
+## Epoch 118/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0265
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0407
+## Epoch 119/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0267
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0414
+## Epoch 120/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0232
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0406
+## Epoch 121/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0235
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0411
+## Epoch 122/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0306
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0412
+## Epoch 123/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0237
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0412
+## Epoch 124/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0209
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0417
+## Epoch 125/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0256
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0415
+## Epoch 126/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0190
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0413
+## Epoch 127/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0231
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0413
+## Epoch 128/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0231
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0415
+## Epoch 129/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0312
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0412
+## Epoch 130/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0284
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0412
+## Epoch 131/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0195
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0417
+## Epoch 132/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0273
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0409
+## Epoch 133/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0229
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0408
+## Epoch 134/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0296
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0416
+## Epoch 135/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0331
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0412
+## Epoch 136/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0180
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0423
+## Epoch 137/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0187
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0408
+## Epoch 138/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0223
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0414
+## Epoch 139/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0241
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0419
+## Epoch 140/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0195
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0408
+## Epoch 141/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0256
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0408
+## Epoch 142/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0240
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0418
+## Epoch 143/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0288
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 144/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0270
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0417
+## Epoch 145/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0235
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0263 - val_loss: 0.0429
+## Epoch 146/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0241
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0404
+## Epoch 147/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0188
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0255 - val_loss: 0.0416
+## Epoch 148/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0224
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0415
+## Epoch 149/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0256
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0409
+## Epoch 150/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0266
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0409
+## Epoch 151/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0270
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0422
+## Epoch 152/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0198
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0405
+## Epoch 153/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0322
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0413
+## Epoch 154/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0257
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0413
+## Epoch 155/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0370
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0404
+## Epoch 156/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0258
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0417
+## Epoch 157/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 158/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0213
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0416
+## Epoch 159/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0236
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0410
+## Epoch 160/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0192
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0418
+## Epoch 161/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0276
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0407
+## Epoch 162/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0226
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0410
+## Epoch 163/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0183
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0402
+## Epoch 164/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0211
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0419
+## Epoch 165/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0225
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0409
+## Epoch 166/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0184
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0419
+## Epoch 167/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0261
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 168/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0220
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0408
+## Epoch 169/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0209
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0419
+## Epoch 170/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0251
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0413
+## Epoch 171/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0281
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0409
+## Epoch 172/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0220
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0414
+## Epoch 173/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0210
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0409
+## Epoch 174/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0211
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0415
+## Epoch 175/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0235
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0413
+## Epoch 176/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0230
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 177/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0200
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0414
+## Epoch 178/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0226
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0402
+## Epoch 179/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0330
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0416
+## Epoch 180/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0330
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0413
+## Epoch 181/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0218
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0411
+## Epoch 182/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0268
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0415
+## Epoch 183/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0253
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0248 - val_loss: 0.0408
+## Epoch 184/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0259
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0410
+## Epoch 185/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0418
+## Epoch 186/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0360
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0404
+## Epoch 187/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0252
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0426
+## Epoch 188/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0260
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0409
+## Epoch 189/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0322
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0410
+## Epoch 190/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0288
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0416
+## Epoch 191/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0260
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0407
+## Epoch 192/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0199
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0414
+## Epoch 193/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0192
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0413
+## Epoch 194/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0227
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0411
+## Epoch 195/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0312
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0416
+## Epoch 196/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0286
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0408
+## Epoch 197/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0412
+## Epoch 198/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0235
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0411
+## Epoch 199/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0229
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0419
+## Epoch 200/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0304
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0407
+## Epoch 201/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0271
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0421
+## Epoch 202/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0190
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0411
+## Epoch 203/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0260
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0406
+## Epoch 204/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0283
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0408
+## Epoch 205/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0271
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0416
+## Epoch 206/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0223
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0408
+## Epoch 207/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0248
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0251 - val_loss: 0.0409
+## Epoch 208/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0209
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0421
+## Epoch 209/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0331
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0409
+## Epoch 210/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0415
+## Epoch 211/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0414
+## Epoch 212/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0194
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0409
+## Epoch 213/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0225
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0409
+## Epoch 214/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0237
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0415
+## Epoch 215/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0238
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0415
+## Epoch 216/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0240
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0407
+## Epoch 217/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0290
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0412
+## Epoch 218/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0324
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0411
+## Epoch 219/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0290
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0258 - val_loss: 0.0425
+## Epoch 220/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0235
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0405
+## Epoch 221/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0262
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0249 - val_loss: 0.0423
+## Epoch 222/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0253
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0410
+## Epoch 223/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0259
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0399
+## Epoch 224/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0321
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0414
+## Epoch 225/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0221
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0417
+## Epoch 226/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0273
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0410
+## Epoch 227/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0210
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0246 - val_loss: 0.0419
+## Epoch 228/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0282
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0413
+## Epoch 229/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0239
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0248 - val_loss: 0.0414
+## Epoch 230/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0225
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0410
+## Epoch 231/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0184
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0406
+## Epoch 232/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0219
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0248 - val_loss: 0.0418
+## Epoch 233/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0230
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0406
+## Epoch 234/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0233
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0246 - val_loss: 0.0414
+## Epoch 235/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0319
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0417
+## Epoch 236/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0405
+## Epoch 237/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0364
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0413
+## Epoch 238/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0320
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0422
+## Epoch 239/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0206
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0406
+## Epoch 240/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0274
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0418
+## Epoch 241/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0199
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0397
+## Epoch 242/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0242
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0417
+## Epoch 243/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0230
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0422
+## Epoch 244/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0259
+## 6/6 [==============================] - 0s 14ms/step - loss: 0.0245 - val_loss: 0.0412
+## Epoch 245/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0190
+## 6/6 [==============================] - 0s 10ms/step - loss: 0.0248 - val_loss: 0.0409
+## Epoch 246/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0250
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0418
+## Epoch 247/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0400
+## Epoch 248/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0181
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0430
+## Epoch 249/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0201
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0413
+## Epoch 250/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0357
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0252 - val_loss: 0.0411
+## Epoch 251/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0275
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0245 - val_loss: 0.0416
+## Epoch 252/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0294
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0404
+## Epoch 253/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0246
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0416
+## Epoch 254/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0231
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0246 - val_loss: 0.0415
+## Epoch 255/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0264
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0246 - val_loss: 0.0404
+## Epoch 256/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0306
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0245 - val_loss: 0.0423
+## Epoch 257/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0244
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0250 - val_loss: 0.0406
+## Epoch 258/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0237
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0245 - val_loss: 0.0416
+## Epoch 259/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0264
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0247 - val_loss: 0.0412
+## Epoch 260/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0197
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0244 - val_loss: 0.0421
+## Epoch 261/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0223
+## 6/6 [==============================] - 0s 9ms/step - loss: 0.0246 - val_loss: 0.0408
+## Epoch 262/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0168
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0411
+## Epoch 263/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0244
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0245 - val_loss: 0.0422
+## Epoch 264/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0217
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0400
+## Epoch 265/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0262
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0404
+## Epoch 266/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0218
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0415
+## Epoch 267/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0227
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0246 - val_loss: 0.0417
+## Epoch 268/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0207
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0410
+## Epoch 269/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0254
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0409
+## Epoch 270/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0228
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0250 - val_loss: 0.0425
+## Epoch 271/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0251
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0249 - val_loss: 0.0408
+## Epoch 272/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0245 - val_loss: 0.0420
+## Epoch 273/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0249
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0247 - val_loss: 0.0410
+## Epoch 274/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0246
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0244 - val_loss: 0.0407
+## Epoch 275/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0270
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0413
+## Epoch 276/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0262
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0245 - val_loss: 0.0412
+## Epoch 277/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0246
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0245 - val_loss: 0.0417
+## Epoch 278/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0241
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0250 - val_loss: 0.0403
+## Epoch 279/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0184
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0243 - val_loss: 0.0430
+## Epoch 280/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0173
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0403
+## Epoch 281/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0223
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0407
+## Epoch 282/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0194
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0416
+## Epoch 283/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0250
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0249 - val_loss: 0.0409
+## Epoch 284/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0186
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0246 - val_loss: 0.0424
+## Epoch 285/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0231
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0243 - val_loss: 0.0408
+## Epoch 286/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0261
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0411
+## Epoch 287/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0234
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0402
+## Epoch 288/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0294
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0415
+## Epoch 289/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0195
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0244 - val_loss: 0.0406
+## Epoch 290/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0243
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0246 - val_loss: 0.0408
+## Epoch 291/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0268
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0245 - val_loss: 0.0413
+## Epoch 292/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0314
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0243 - val_loss: 0.0402
+## Epoch 293/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0270
+## 6/6 [==============================] - 0s 8ms/step - loss: 0.0244 - val_loss: 0.0403
+## Epoch 294/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0226
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0251 - val_loss: 0.0423
+## Epoch 295/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0258
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0255 - val_loss: 0.0404
+## Epoch 296/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0244
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0428
+## Epoch 297/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0292
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0252 - val_loss: 0.0397
+## Epoch 298/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0216
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0253 - val_loss: 0.0419
+## Epoch 299/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0214
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0247 - val_loss: 0.0395
+## Epoch 300/300
+## 
+## 1/6 [====&gt;.........................] - ETA: 0s - loss: 0.0251
+## 6/6 [==============================] - 0s 7ms/step - loss: 0.0242 - val_loss: 0.0423</code></pre>
+<pre><code>## 1/1 - 0s - 127ms/epoch - 127ms/step</code></pre>
+<p>Después de entrenar la red neuronal estos fueron los resultados.</p>
+<pre><code>## RMSE Keras Jordan: 324.6018</code></pre>
+<pre><code>## MAE Keras Jordan: 261.7301</code></pre>
+<p><img src="_main_files/figure-html/Jordan_res-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>Igual que en la grafica de ELMAN el modelo se mantiene en el promedio de las ventas reales y tiene el mismo problema para predecir los comportamientos atipicos de ventas.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:jordan-train"></span>
+<img src="images/jordan_train.png" alt="Estrutura red ELMAN" width="80%" />
+<p class="caption">
+Figure 6.4: Estrutura red ELMAN
+</p>
+</div>
+<p>Esta gráfica representa la evolución de la función de pérdida del modelo Jordan, su comportamiento es muy similar al caso de ELMAN con la diferencia que los valores iniciales de perdida fueron más bajos (0.05) que los de ELMAN (0.08). Se aumentó la cantidad de epocas (300) buscando una mejor función de perdida, aunque el resutlado de este modelo es mejor al de ELMAN el resultado sigue siendo menos favorable que usar SARIMA.</p>
+<p>Igual que en ELMAN ambas líneas disminuyen la perdida rápidamente antes de las 50 epocas y luego se estabilizan.</p>
+<p>Después de 100 épocas ambas líneas se mantienen relativamente estables con una tendencia muy poco significativa hacia abajo, con algunas fluctuaciones.</p>
+</div>
+<div id="resultados" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Resultados<a href="redes-neuronales-elman-y-jordan.html#resultados" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En esta tabla se comparan los resultados de los modelos de las redes ELMAN y Jordan contra los demás modelos usado en el curso.</p>
+<pre><code>##                                 RMSE      MAE
+## Holt-Winters Aditivo        140.4213 111.8802
+## Holt-Winters Multiplicativo 143.8373 115.8820
+## SARIMA                      137.7336 109.1637
+## Prophet sin regresores      196.8354 146.5227
+## Prophet con regresores      176.8185 134.5342
+## Red ELMAN                   335.8276 276.9099
+## Red Jordan                  301.6187 246.2491</code></pre>
+<p>Como se ve, ambos modelos de las redes neuronales fueron las menos efectivas en su pronostico. Entra las posibles causas están el tamaño limitado del conjunto de datos, el conjunto solo contró con 381 días para entrenar la red cuando normalmente se usan grandes cantidades de datos para aprender patrones complejos y evitar sobreajuste. Esta poca cantidad pudo crear un sobreajuste en el modelo que se nota al ver que val_loss no disminuye en ninguno de los modelos
+Ademas, para poder hacer el entrenamiento fue necesario agregar los días faltantes e imputar los valores, aunque fueron pocos valores estos pudo volverse ruido.</p>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Isaienkov, Yaroslav. 2025. <span>“Coffee Sales.”</span> Kaggle. <a href="https://www.kaggle.com/datasets/ihelon/coffee-sales">https://www.kaggle.com/datasets/ihelon/coffee-sales</a>.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="algoritmo-facebooks-prophet.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/05-blocks.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
