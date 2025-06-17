@@ -29,7 +29,7 @@ The HTML output format for this example is bookdown::gitbook,</p>" />
 <meta name="author" content="Luisa Angélica Isaza Sanabria - Juan Andrés Murillo Cadena - Carlos Fabián Villa Infante" />
 
 
-<meta name="date" content="2025-06-09" />
+<meta name="date" content="2025-06-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,9 +330,9 @@ Este valor mide la autocorrelación de los residuales en el primer rezago. Un va
 <pre><code>##                    RMSE      MAE
 ## Additive       140.4213 111.8802
 ## Multiplicative 143.8373 115.8820
-## Linear         134.9217 108.0084
+## Lineal         134.9217 108.0084
 ## SARIMA         137.7336 109.1637</code></pre>
-<p>El SARIMA tiene el mejor desempeño en términos de RMSE y MAE, lo que sugiere que es el mejor modelo hasta ahora. Esto puede deberse a que el SARIMA modela la estructura autorregresiva y la estacionalidad semanal, mientras que Holt-Winters se basa en suavizamiento y el modelo lineal no captura la estructura temporal.</p>
+<p>El modelo lineal tiene el mejor desempeño en términos de RMSE y MAE, lo que sugiere que es el mejor modelo hasta ahora. A pesar del bajo R² el modelo lineal parece estar capturando patrones estacionales básicos (días de la semana y meses) de manera efectiva, mientras que los demas modelos al ser más complejos parecen estar fallando debido a sobreajuste o datos insuficientes.</p>
 
 </div>
 </div>

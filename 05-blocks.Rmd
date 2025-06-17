@@ -102,7 +102,7 @@ Indica el número de muestras procesadas antes de actualizar los pesos en cada i
 
 validation_split = 0.2: Con este parámetro se reserva el 20% de los datos de entrenamiento para validar el modelo durante el entrenamiento para evitar el sobreajuste.
 
-```{r ELMAN, echo=FALSE}
+```{r ELMAN, echo=FALSE, message=FALSE}
 
 library(keras)
 
@@ -217,7 +217,7 @@ Y_train_keras <- array_reshape(Y_train_with_prev, dim = c(length(Y_train_with_pr
 
 ```
 
-```{r Jordan, echo=FALSE}
+```{r Jordan, echo=FALSE, message=FALSE}
 
 # Crear el modelo Jordan
 model <- keras_model_sequential() %>%
@@ -295,6 +295,7 @@ En esta tabla se comparan los resultados de los modelos de las redes ELMAN y Jor
 ```{r esultados, echo=FALSE}
 # Crear la tabla de métricas
 metrics_table <- rbind(
+  `Lineal`  = c(RMSE =134.9217, MAE =108.0084),
   `Holt-Winters Aditivo` = c(RMSE = 140.4213, MAE = 111.8802),
   `Holt-Winters Multiplicativo` = c(RMSE = 143.8373, MAE = 115.8820),
   `SARIMA` = c(RMSE = 137.7336, MAE = 109.1637),
